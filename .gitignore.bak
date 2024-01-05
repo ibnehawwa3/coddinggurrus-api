@@ -362,8 +362,8 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 
-# Additional exclusions
 .dtbcache.v2
 .futdcache.v2
+
 ctd.metadtdaa.v2.bin
 ctd.projects.v7.bin
