@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\Coddinggurrus.Api.props" />
+</Project>
