@@ -1,7 +1,12 @@
 using Coddinggurrus.Api.Extensions;
 using Coddinggurrus.Api.Identity;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,19 +19,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddCustomIdentity(builder.Configuration);
 
-//#region Identity
-//builder.Services.AddDbContext<DatabaseContext>(options => options.UseSqlServer(builder.Configuration.GetValue<string>("ConnectionStrings:CoddingGurrusDb")));
-//builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
-//{
-//    options.Password.RequireDigit = false;
-//    options.Password.RequiredLength = 4;
-//    options.Password.RequireNonAlphanumeric = false;
-//    options.Password.RequireUppercase = false;
-//    options.Password.RequireLowercase = false;
-//})
-//.AddEntityFrameworkStores<DatabaseContext>()
-//.AddDefaultTokenProviders();
-//#endregion
+builder.Services.AddJwtAuthentication(builder.Configuration);
 
 var app = builder.Build();
 
