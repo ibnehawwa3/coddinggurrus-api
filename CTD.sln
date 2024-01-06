@@ -11,17 +11,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{CAE30678-CC22-4410-9C5D-870163735EF5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Coddinggurrus.Api", "Coddinggurrus.Api\Coddinggurrus.Api.csproj", "{4FD7F347-4FF3-4E00-9799-973BF46B02A5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Coddinggurrus.Api", "Coddinggurrus.Api\Coddinggurrus.Api.csproj", "{4FD7F347-4FF3-4E00-9799-973BF46B02A5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Coddinggurrus.Business", "Coddinggurrus.Business\Coddinggurrus.Business.csproj", "{441198EC-14E0-40DD-B3E0-D4E6D09A5103}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Coddinggurrus.Business", "Coddinggurrus.Business\Coddinggurrus.Business.csproj", "{441198EC-14E0-40DD-B3E0-D4E6D09A5103}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Coddinggurrus.Core", "Coddinggurrus.Core\Coddinggurrus.Core.csproj", "{17D04076-F3C8-4783-A7F0-6BD74B5706CD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Coddinggurrus.Core", "Coddinggurrus.Core\Coddinggurrus.Core.csproj", "{17D04076-F3C8-4783-A7F0-6BD74B5706CD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Coddinggurrus.Data", "Coddinggurrus.Data\Coddinggurrus.Data.csproj", "{21A1899E-F2C0-4AD9-807C-24D7FDC4E89B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Coddinggurrus.Data", "Coddinggurrus.Data\Coddinggurrus.Data.csproj", "{21A1899E-F2C0-4AD9-807C-24D7FDC4E89B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Coddinggurrus.Domain", "Coddinggurrus.Domain\Coddinggurrus.Domain.csproj", "{39481B08-9E88-44AC-806C-9CE0C6437109}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Coddinggurrus.Domain", "Coddinggurrus.Domain\Coddinggurrus.Domain.csproj", "{39481B08-9E88-44AC-806C-9CE0C6437109}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Coddinggurrus.Infrastructure", "Coddinggurrus.Infrastructure\Coddinggurrus.Infrastructure.csproj", "{1EF30E90-2C32-4872-9538-FC8FD819E39D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Coddinggurrus.Infrastructure", "Coddinggurrus.Infrastructure\Coddinggurrus.Infrastructure.csproj", "{1EF30E90-2C32-4872-9538-FC8FD819E39D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
