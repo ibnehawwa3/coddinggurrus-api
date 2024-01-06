@@ -13,5 +13,6 @@ namespace Coddinggurrus.Api.Identity
     {
         // Additional properties, if any
         public string FirstName { get; set; }
+        public DateTime DateRegistration { get; set; }
     }
 }

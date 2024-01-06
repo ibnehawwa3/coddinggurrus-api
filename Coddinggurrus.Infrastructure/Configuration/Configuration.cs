@@ -9,5 +9,8 @@ namespace Coddinggurrus.Infrastructure.Configuration
     public class Configuration
     {
         public double CacheExpireyTime { get; set; }
+        public string JwtKey { get; set; }
+        public string JwtIssuer { get; set; }
+        public string JwtExpireTime { get; set; }
     }
 }
