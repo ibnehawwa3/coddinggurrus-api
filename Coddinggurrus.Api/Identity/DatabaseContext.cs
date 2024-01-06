@@ -12,5 +12,6 @@ namespace Coddinggurrus.Api.Identity
     public class ApplicationUser : IdentityUser
     {
         // Additional properties, if any
+        public string FirstName { get; set; }
     }
 }
