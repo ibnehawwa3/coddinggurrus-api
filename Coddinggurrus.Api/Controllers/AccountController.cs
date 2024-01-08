@@ -41,6 +41,7 @@ namespace Coddinggurrus.Api.Controllers
             {
                 ApplicationUser user = new ApplicationUser()
                 {
+                    FirstName = registerRequest.FirstName,
                     UserName = registerRequest.Email,
                     Email = registerRequest.Email,
                     DateRegistration = DateTime.UtcNow,
