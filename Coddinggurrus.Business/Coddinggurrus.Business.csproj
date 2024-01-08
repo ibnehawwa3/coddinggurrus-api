@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Coddinggurrus.Core\Coddinggurrus.Core.csproj" />
+  </ItemGroup>
+
 </Project>

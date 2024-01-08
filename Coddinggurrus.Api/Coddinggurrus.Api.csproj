@@ -28,6 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Coddinggurrus.Business\Coddinggurrus.Business.csproj" />
     <ProjectReference Include="..\Coddinggurrus.Core\Coddinggurrus.Core.csproj" />
     <ProjectReference Include="..\Coddinggurrus.Infrastructure\Coddinggurrus.Infrastructure.csproj" />
   </ItemGroup>

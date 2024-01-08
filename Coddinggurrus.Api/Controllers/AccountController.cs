@@ -1,7 +1,6 @@
 ﻿using Coddinggurrus.Core.Entities.User;
 using Coddinggurrus.Infrastructure.APIModels;
 using Coddinggurrus.Infrastructure.APIRequestModels.User;
-using Coddinggurrus.Infrastructure.Configuration;
 using Coddinggurrus.Infrastructure.Enums;
 using Coddinggurrus.Infrastructure.Exceptions;
 using Coddinggurrus.Infrastructure.Helpers;
