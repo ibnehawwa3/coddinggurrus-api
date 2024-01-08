@@ -8,7 +8,6 @@ using Coddinggurrus.Infrastructure.Helpers;
 using Coddinggurrus.Infrastructure.Validations;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -22,16 +21,14 @@ namespace Coddinggurrus.Api.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
-        private readonly IOptions<Configuration> _appSettings;
         private readonly JwtSecurityTokenHandler _jwtSecurityTokenHandler;
-        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, RoleManager<IdentityRole> roleManager, IOptions<Configuration> appSettings)
+        private readonly IConfiguration _configuration;
+        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IConfiguration configuration)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _roleManager = roleManager;
-            _appSettings = appSettings;
             _jwtSecurityTokenHandler = new JwtSecurityTokenHandler();
+            _configuration = configuration;
         }
         #region Register new User
         [HttpPost]
@@ -118,7 +115,7 @@ namespace Coddinggurrus.Api.Controllers
         private TokenResponse _GenerateJSONWebToken(ApplicationUser applicationUser, string role)
         {
             applicationUser.Email = "";
-            SymmetricSecurityKey securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_appSettings.Value.JwtKey));
+            SymmetricSecurityKey securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetValue<string>("AppSettings:JwtKey")));
             SecurityTokenDescriptor tokenDescriptor = new SecurityTokenDescriptor()
             {
                 Subject = new ClaimsIdentity(new Claim[]
@@ -128,11 +125,11 @@ namespace Coddinggurrus.Api.Controllers
             new Claim(ClaimTypes.Role, role),
             new Claim(ClaimTypes.NameIdentifier , applicationUser.Id)
                 }),
-                Expires = DateTime.UtcNow.AddMinutes(Convert.ToInt32(_appSettings.Value.JwtExpireTime)),
+                Expires = DateTime.UtcNow.AddMinutes(Convert.ToInt32(_configuration.GetValue<string>("AppSettings:JwtExpireTime"))),
                 SigningCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature),
                 IssuedAt = DateTime.UtcNow,
-                Issuer = _appSettings.Value.JwtIssuer,
-                Audience = _appSettings.Value.JwtIssuer
+                Issuer = _configuration.GetValue<string>("AppSettings:JwtIssuer"),
+                Audience = _configuration.GetValue<string>("AppSettings:JwtIssuer")
             };
 
             SecurityToken jwtToken = _jwtSecurityTokenHandler.CreateToken(tokenDescriptor);
