@@ -1,16 +1,15 @@
-﻿using Coddinggurrus.Api.Identity;
+﻿using Coddinggurrus.Core.Entities.User;
+using Coddinggurrus.Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace Coddinggurrus.Api.Extensions
 {
-    public static class IdentityServiceExtensions
+    public static class IdentityExtensions
     {
         public static void AddCustomIdentity(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddDbContext<DatabaseContext>(options =>
-                options.UseSqlServer(configuration.GetValue<string>("ConnectionStrings:CoddingGurrusDb")));
-
+            services.AddDbContext<DatabaseContext>(options => options.UseSqlServer(configuration.GetValue<string>("ConnectionStrings:CoddingGurrusDb")));
             services.AddIdentity<ApplicationUser, IdentityRole>(options =>
             {
                 options.Password.RequireDigit = false;
@@ -23,5 +22,4 @@ namespace Coddinggurrus.Api.Extensions
             .AddDefaultTokenProviders();
         }
     }
-
 }

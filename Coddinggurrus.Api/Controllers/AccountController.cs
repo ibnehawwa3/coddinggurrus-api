@@ -1,4 +1,4 @@
-﻿using Coddinggurrus.Api.Identity;
+﻿using Coddinggurrus.Core.Entities.User;
 using Coddinggurrus.Infrastructure.APIModels;
 using Coddinggurrus.Infrastructure.APIRequestModels.User;
 using Coddinggurrus.Infrastructure.Configuration;
