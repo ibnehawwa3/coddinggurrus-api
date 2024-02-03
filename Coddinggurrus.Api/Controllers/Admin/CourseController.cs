@@ -1,7 +1,6 @@
-﻿using Coddinggurrus.Core.Interfaces.Services.User;
+﻿using Coddinggurrus.Core.Interfaces.Services.Course;
 using Coddinggurrus.Infrastructure.APIModels;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Coddinggurrus.Api.Controllers.Admin
@@ -9,14 +8,13 @@ namespace Coddinggurrus.Api.Controllers.Admin
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController : ControllerBase
+    public class CourseController : ControllerBase
     {
-        private readonly IUserService _userService;
-        public UserController(IUserService userService)
+        private readonly ICourseService _courseService;
+        public CourseController(ICourseService courseService)
         {
-            _userService = userService;
+            _courseService= courseService;
         }
-
         [HttpGet("list")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetList(int pageNo, int pageSize, string searchText = "")
@@ -24,7 +22,7 @@ namespace Coddinggurrus.Api.Controllers.Admin
             BasicResponse basicResponse = new BasicResponse();
             try
             {
-                var users = await _userService.GetList(pageNo, pageSize, searchText);
+                var users = await _courseService.GetCourses(pageNo, pageSize, searchText);
                 basicResponse.Data = users;
             }
             catch (Exception e)
