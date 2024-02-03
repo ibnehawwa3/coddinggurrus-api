@@ -1,4 +1,5 @@
-﻿using Coddinggurrus.Core.Interfaces.Repositories.User;
+﻿using Coddinggurrus.Core.Helper;
+using Coddinggurrus.Core.Interfaces.Repositories.User;
 using Coddinggurrus.Core.Interfaces.Services.User;
 using Coddinggurrus.Core.Models.User;
 using Microsoft.Extensions.Configuration;
@@ -13,9 +14,9 @@ namespace Coddinggurrus.Business.Services.User
             _userRepository = userRepository;
         }
 
-        public async Task<List<UserModel>> GetList(int pageNo, int pageSize, string searchText)
+        public async Task<List<UserModel>> GetList(ListingParameter listingParameter)
         {
-            return await _userRepository.GetList(pageNo,pageSize,searchText);
+            return await _userRepository.GetList(listingParameter);
         }
     }
 }

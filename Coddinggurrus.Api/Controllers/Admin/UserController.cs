@@ -1,7 +1,11 @@
-﻿using Coddinggurrus.Core.Interfaces.Services.User;
+﻿using Coddinggurrus.Core.Helper;
+using Coddinggurrus.Core.Interfaces.Services.User;
+using Coddinggurrus.Core.Models.User;
 using Coddinggurrus.Infrastructure.APIModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace Coddinggurrus.Api.Controllers.Admin
 {
@@ -17,13 +21,13 @@ namespace Coddinggurrus.Api.Controllers.Admin
 
         [HttpGet("list")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetList(int pageNo, int pageSize, string searchText = "")
+        public async Task<IActionResult> GetList([FromQuery]ListingParameter listingParameter)
         {
             BasicResponse basicResponse = new BasicResponse();
             try
             {
-                var users = await _userService.GetList(pageNo, pageSize, searchText);
-                basicResponse.Data = users;
+                var users = await _userService.GetList(listingParameter);
+                basicResponse.Data = JsonConvert.SerializeObject(users);
             }
             catch (Exception e)
             {
