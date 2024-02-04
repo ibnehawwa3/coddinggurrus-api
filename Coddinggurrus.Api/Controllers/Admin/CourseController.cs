@@ -39,6 +39,12 @@ namespace Coddinggurrus.Api.Controllers.Admin
             BasicResponse basicResponse = new BasicResponse();
             try
             {
+                if (string.IsNullOrEmpty(course.Title))
+                    return BadRequest($"Missing required fields.");
+
+                var titleExists = await _courseService.TitleExists(course.Title);
+                if (titleExists) return BadRequest($"Course {course.Title} already exists.");
+
                 var users = await _courseService.AddCourse(course);
                 basicResponse.Data = users;
             }

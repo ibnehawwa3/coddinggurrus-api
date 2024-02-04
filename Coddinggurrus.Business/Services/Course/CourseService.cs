@@ -1,6 +1,7 @@
 ﻿using Coddinggurrus.Core.Interfaces.Repositories.Course;
 using Coddinggurrus.Core.Interfaces.Services.Course;
 using Coddinggurrus.Core.Models.Course;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -28,5 +29,10 @@ namespace Coddinggurrus.Business.Services.Course
             return await _courseRepository.AddCourse(course);
         }
 
+        public async Task<bool> TitleExists(string title)
+        {
+            var exists = await _courseRepository.TitleExists(title);
+            return exists;
+        }
     }
 }

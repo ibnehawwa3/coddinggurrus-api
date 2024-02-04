@@ -11,5 +11,6 @@ namespace Coddinggurrus.Core.Interfaces.Services.Course
     {
         Task<IEnumerable<CourseModel>> GetCourses(int pageNo, int pageSize, string searchText = "");
         Task<int> AddCourse(CourseModel course);
+        Task<bool> TitleExists(string title);
     }
 }

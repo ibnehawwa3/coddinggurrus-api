@@ -2,6 +2,7 @@
 using Coddinggurrus.Core.Models.Course;
 using Dapper;
 using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Configuration;
 
 namespace Coddinggurrus.Infrastructure.Repositories.Course
@@ -54,6 +55,18 @@ namespace Coddinggurrus.Infrastructure.Repositories.Course
             int courseId = await connection.ExecuteScalarAsync<int>(sql, course);
 
             return courseId;
+        }
+
+        public async Task<bool> TitleExists(string title)
+        {
+            var sql = @"SELECT TOP 1 1
+            FROM dbo.Course
+            WHERE Title = @title"
+            ;
+            using SqlConnection connection = new(CoddingGurrusDbConnectionString);
+            var results = await connection.QueryFirstOrDefaultAsync<int>(sql, new { title });
+
+            return results > 0;
         }
     }
 }
