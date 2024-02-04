@@ -22,5 +22,11 @@ namespace Coddinggurrus.Business.Services.Course
             var skip = (pageNo * pageSize) - pageSize;
             return await _courseRepository.GetCourses(skip, pageSize, searchText);
         }
+
+        public async Task<int> AddCourse(CourseModel course)
+        {
+            return await _courseRepository.AddCourse(course);
+        }
+
     }
 }

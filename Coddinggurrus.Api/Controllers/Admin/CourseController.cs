@@ -1,4 +1,5 @@
 ﻿using Coddinggurrus.Core.Interfaces.Services.Course;
+using Coddinggurrus.Core.Models.Course;
 using Coddinggurrus.Infrastructure.APIModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -23,6 +24,22 @@ namespace Coddinggurrus.Api.Controllers.Admin
             try
             {
                 var users = await _courseService.GetCourses(pageNo, pageSize, searchText);
+                basicResponse.Data = users;
+            }
+            catch (Exception e)
+            {
+                basicResponse.ErrorMessage = e.Message;
+            }
+            return Ok(basicResponse);
+        }
+        [HttpPost("add")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> Add(CourseModel course)
+        {
+            BasicResponse basicResponse = new BasicResponse();
+            try
+            {
+                var users = await _courseService.AddCourse(course);
                 basicResponse.Data = users;
             }
             catch (Exception e)

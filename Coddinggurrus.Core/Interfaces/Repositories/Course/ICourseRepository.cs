@@ -6,5 +6,6 @@ namespace Coddinggurrus.Core.Interfaces.Repositories.Course
     public interface ICourseRepository
     {
         Task<IEnumerable<CourseModel>> GetCourses(int skip, int take, string searchText = "");
+        Task<int> AddCourse(CourseModel course);
     }
 }

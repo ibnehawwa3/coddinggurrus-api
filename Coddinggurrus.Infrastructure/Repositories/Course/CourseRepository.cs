@@ -3,11 +3,6 @@ using Coddinggurrus.Core.Models.Course;
 using Dapper;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Coddinggurrus.Infrastructure.Repositories.Course
 {
@@ -16,7 +11,6 @@ namespace Coddinggurrus.Infrastructure.Repositories.Course
         public CourseRepository(IConfiguration config) : base(config)
         {
         }
-
         public async Task<IEnumerable<CourseModel>> GetCourses(int skip, int take, string searchText = "")
         {
             var countSql = @$"SELECT COUNT(*) 
@@ -48,6 +42,18 @@ namespace Coddinggurrus.Infrastructure.Repositories.Course
 
             grid.Dispose();
             return articles;
+        }
+        public async Task<int> AddCourse(CourseModel course)
+        {
+            string sql = @"
+            INSERT INTO dbo.Course (Title, Description)
+            VALUES (@Title, @Description);
+            SELECT SCOPE_IDENTITY();";
+
+            using SqlConnection connection = new(CoddingGurrusDbConnectionString);
+            int courseId = await connection.ExecuteScalarAsync<int>(sql, course);
+
+            return courseId;
         }
     }
 }
