@@ -1,15 +1,11 @@
 ﻿using Coddinggurrus.Core.Interfaces.Services.Course;
 using Coddinggurrus.Core.Models.Course;
 using Coddinggurrus.Infrastructure.APIModels;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Coddinggurrus.Api.Controllers.Admin
 {
-    [Authorize]
-    [Route("api/[controller]")]
-    [ApiController]
-    public class CourseController : ControllerBase
+    public class CourseController : AdminController
     {
         private readonly ICourseService _courseService;
         public CourseController(ICourseService courseService)
