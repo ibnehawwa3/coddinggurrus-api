@@ -93,11 +93,11 @@ namespace Coddinggurrus.Infrastructure.Repositories.Course
         {
             var sql = @"UPDATE Course 
                  SET Title = @Title,
-                     Desription = @Desription,
+                     Description = @Description
                  WHERE Id = @Id";
 
             using SqlConnection connection = new(CoddingGurrusDbConnectionString);
-            var result = await connection.ExecuteAsync(sql, new { model.Title, model.Description});
+            var result = await connection.ExecuteAsync(sql, new { model.Title, model.Description , model.Id});
             return result > 0;
         }
         /// <summary>
