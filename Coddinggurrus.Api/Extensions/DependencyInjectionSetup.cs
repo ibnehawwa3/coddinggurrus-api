@@ -15,8 +15,10 @@ namespace Coddinggurrus.Api.Extensions
         {
             return services
                 .AddScoped<IUserService, UserService>()
+                .AddScoped<IUserProfileService, UserProfileService>()
                 .AddScoped<ICourseService, CourseService>()
                 .AddScoped<IUserRepository, UserRepository>()
+                .AddScoped<IUserProfileRepository, UserProfileRepository>()
                 .AddScoped<ICourseRepository, CourseRepository>()
                 .AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 

@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Coddinggurrus.Core\Coddinggurrus.Core.csproj" />
+    <ProjectReference Include="..\Coddinggurrus.Infrastructure\Coddinggurrus.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
