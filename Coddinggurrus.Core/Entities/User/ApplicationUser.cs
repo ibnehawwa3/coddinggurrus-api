@@ -7,5 +7,7 @@ namespace Coddinggurrus.Core.Entities.User
         // Additional properties, if any
         public string FirstName { get; set; }
         public DateTime DateRegistration { get; set; }
+        public string LastName { get; set; }
+        public string MobileNumber { get; set; }
     }
 }
