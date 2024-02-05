@@ -68,5 +68,36 @@ namespace Coddinggurrus.Infrastructure.Repositories.Course
 
             return results > 0;
         }
+
+        /// <summary>
+        /// Update an course against its reference
+        /// </summary>
+        /// <param name="model">Course model</param>
+        /// <returns></returns>
+        public async Task<bool> UpdateCourse(CourseModel model)
+        {
+            var sql = @"UPDATE Course 
+                 SET Title = @Title,
+                     Desription = @Desription,
+                 WHERE Id = @Id";
+
+            using SqlConnection connection = new(CoddingGurrusDbConnectionString);
+            var result = await connection.ExecuteAsync(sql, new { model.Title, model.Description});
+            return result > 0;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        public async Task<bool> DeleteCourse(long Id)
+        {
+            var sql = @"DELETE FROM Course                         
+            WHERE Id = @Id";
+
+            using SqlConnection connection = new(CoddingGurrusDbConnectionString);
+            var result = await connection.ExecuteAsync(sql, new { Id });
+            return result > 0;
+        }
     }
 }

@@ -1,9 +1,4 @@
 ﻿using Coddinggurrus.Core.Models.Course;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Coddinggurrus.Core.Interfaces.Services.Course
 {
@@ -12,5 +7,8 @@ namespace Coddinggurrus.Core.Interfaces.Services.Course
         Task<IEnumerable<CourseModel>> GetCourses(int pageNo, int pageSize, string searchText = "");
         Task<int> AddCourse(CourseModel course);
         Task<bool> TitleExists(string title);
+        Task<bool> UpdateCourse(CourseModel model);
+        Task<bool> DeleteCourse(long Id);
+
     }
 }

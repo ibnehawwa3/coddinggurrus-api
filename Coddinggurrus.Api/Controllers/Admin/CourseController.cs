@@ -54,5 +54,43 @@ namespace Coddinggurrus.Api.Controllers.Admin
             }
             return Ok(basicResponse);
         }
+
+        [HttpPost("update")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> UpdateCourse(CourseModel course)
+        {
+            BasicResponse basicResponse = new BasicResponse();
+            try
+            {
+                if (string.IsNullOrEmpty(course.Title))
+                    return BadRequest($"Missing required fields.");
+
+                await _courseService.UpdateCourse(course);
+                basicResponse.Data = NoContent();
+            }
+            catch (Exception e)
+            {
+                basicResponse.ErrorMessage = e.Message;
+            }
+            return Ok(basicResponse);
+        }
+
+        [HttpDelete("delete")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> Delete(long Id)
+        {
+            BasicResponse basicResponse = new BasicResponse();
+            try
+            {
+                await _courseService.DeleteCourse(Id);
+                basicResponse.Data = NoContent();
+            }
+            catch (Exception e)
+            {
+                basicResponse.ErrorMessage = e.Message;
+            }
+            return Ok(basicResponse);
+        }
+
     }
 }

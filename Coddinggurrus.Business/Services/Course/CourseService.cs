@@ -1,13 +1,7 @@
 ﻿using Coddinggurrus.Core.Interfaces.Repositories.Course;
 using Coddinggurrus.Core.Interfaces.Services.Course;
 using Coddinggurrus.Core.Models.Course;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Coddinggurrus.Business.Services.Course
 {
@@ -23,16 +17,22 @@ namespace Coddinggurrus.Business.Services.Course
             var skip = (pageNo * pageSize) - pageSize;
             return await _courseRepository.GetCourses(skip, pageSize, searchText);
         }
-
         public async Task<int> AddCourse(CourseModel course)
         {
             return await _courseRepository.AddCourse(course);
         }
-
         public async Task<bool> TitleExists(string title)
         {
             var exists = await _courseRepository.TitleExists(title);
             return exists;
+        }
+        public async Task<bool> UpdateCourse(CourseModel model)
+        {
+            return await _courseRepository.UpdateCourse(model);
+        }
+        public async Task<bool> DeleteCourse(long Id)
+        {
+            return await _courseRepository.DeleteCourse(Id);
         }
     }
 }
