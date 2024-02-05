@@ -1,10 +1,10 @@
-﻿using Coddinggurrus.Core.Interfaces.Repositories.Course;
-using Coddinggurrus.Core.Models.Course;
+﻿using Coddinggurrus.Core.Entities;
+using Coddinggurrus.Core.Interfaces.Repositories.Tutorials;
 using Dapper;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 
-namespace Coddinggurrus.Infrastructure.Repositories.Course
+namespace Coddinggurrus.Infrastructure.Repositories.Tutorials
 {
     public class CourseRepository : BaseRepository, ICourseRepository
     {
@@ -18,7 +18,7 @@ namespace Coddinggurrus.Infrastructure.Repositories.Course
         /// <param name="take"></param>
         /// <param name="searchText"></param>
         /// <returns></returns>
-        public async Task<IEnumerable<CourseModel>> GetCourses(int skip, int take, string searchText = "")
+        public async Task<IEnumerable<Course>> GetCourses(int skip, int take, string searchText = "")
         {
             var countSql = @$"SELECT COUNT(*) 
                      FROM dbo.Course a with (nolock) 
@@ -55,7 +55,7 @@ namespace Coddinggurrus.Infrastructure.Repositories.Course
         /// </summary>
         /// <param name="course"></param>
         /// <returns></returns>
-        public async Task<int> AddCourse(CourseModel course)
+        public async Task<int> AddCourse(Course course)
         {
             string sql = @"
             INSERT INTO dbo.Course (Title, Description)
@@ -89,7 +89,7 @@ namespace Coddinggurrus.Infrastructure.Repositories.Course
         /// </summary>
         /// <param name="model">Course model</param>
         /// <returns></returns>
-        public async Task<bool> UpdateCourse(CourseModel model)
+        public async Task<bool> UpdateCourse(Course model)
         {
             var sql = @"UPDATE Course 
                  SET Title = @Title,
@@ -97,7 +97,7 @@ namespace Coddinggurrus.Infrastructure.Repositories.Course
                  WHERE Id = @Id";
 
             using SqlConnection connection = new(CoddingGurrusDbConnectionString);
-            var result = await connection.ExecuteAsync(sql, new { model.Title, model.Description , model.Id});
+            var result = await connection.ExecuteAsync(sql, new { model.Title, model.Description, model.Id });
             return result > 0;
         }
         /// <summary>

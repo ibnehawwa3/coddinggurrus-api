@@ -1,10 +1,10 @@
-﻿using Coddinggurrus.Business.Services.Course;
+﻿using Coddinggurrus.Business.Services.Tutorials;
 using Coddinggurrus.Business.Services.User;
-using Coddinggurrus.Core.Interfaces.Repositories.Course;
+using Coddinggurrus.Core.Interfaces.Repositories.Tutorials;
 using Coddinggurrus.Core.Interfaces.Repositories.User;
-using Coddinggurrus.Core.Interfaces.Services.Course;
+using Coddinggurrus.Core.Interfaces.Services.Tutorials;
 using Coddinggurrus.Core.Interfaces.Services.User;
-using Coddinggurrus.Infrastructure.Repositories.Course;
+using Coddinggurrus.Infrastructure.Repositories.Tutorials;
 using Coddinggurrus.Infrastructure.Repositories.User;
 
 namespace Coddinggurrus.Api.Extensions

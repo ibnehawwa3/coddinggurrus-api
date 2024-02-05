@@ -1,5 +1,7 @@
-﻿using Coddinggurrus.Core.Interfaces.Services.Course;
-using Coddinggurrus.Core.Models.Course;
+﻿using AutoMapper;
+using Coddinggurrus.Api.Models.Admin.Course;
+using Coddinggurrus.Core.Entities;
+using Coddinggurrus.Core.Interfaces.Services.Tutorials;
 using Coddinggurrus.Infrastructure.APIModels;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,7 +10,7 @@ namespace Coddinggurrus.Api.Controllers.Admin
     public class CourseController : AdminController
     {
         private readonly ICourseService _courseService;
-        public CourseController(ICourseService courseService)
+        public CourseController(ICourseService courseService, IMapper mapper, IConfiguration config) : base(mapper, config)
         {
             _courseService= courseService;
         }
@@ -30,18 +32,18 @@ namespace Coddinggurrus.Api.Controllers.Admin
         }
         [HttpPost("add")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> Add(CourseModel course)
+        public async Task<IActionResult> Add(CourseModel model)
         {
             BasicResponse basicResponse = new BasicResponse();
             try
             {
-                if (string.IsNullOrEmpty(course.Title))
+                if (string.IsNullOrEmpty(model.Title))
                     return BadRequest($"Missing required fields.");
 
-                var titleExists = await _courseService.TitleExists(course.Title);
-                if (titleExists) return BadRequest($"Course {course.Title} already exists.");
+                var titleExists = await _courseService.TitleExists(model.Title);
+                if (titleExists) return BadRequest($"Course {model.Title} already exists.");
 
-                var users = await _courseService.AddCourse(course);
+                var users = await _courseService.AddCourse(Mapper.Map<Course>(model));
                 basicResponse.Data = users;
             }
             catch (Exception e)
@@ -53,15 +55,15 @@ namespace Coddinggurrus.Api.Controllers.Admin
 
         [HttpPost("update")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> UpdateCourse(CourseModel course)
+        public async Task<IActionResult> UpdateCourse(CourseModel model)
         {
             BasicResponse basicResponse = new BasicResponse();
             try
             {
-                if (string.IsNullOrEmpty(course.Title))
+                if (string.IsNullOrEmpty(model.Title))
                     return BadRequest($"Missing required fields.");
 
-                await _courseService.UpdateCourse(course);
+                await _courseService.UpdateCourse(Mapper.Map<Course>(model));
                 basicResponse.Data = NoContent();
             }
             catch (Exception e)

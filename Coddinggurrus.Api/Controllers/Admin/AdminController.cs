@@ -1,8 +1,10 @@
-﻿namespace Coddinggurrus.Api.Controllers.Admin
+﻿using AutoMapper;
+
+namespace Coddinggurrus.Api.Controllers.Admin
 {
     public class AdminController : ApiController
     {
-        public AdminController()
+        public AdminController(IMapper mapper, IConfiguration config) : base(mapper, config)
         {
             
         }

@@ -10,6 +10,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 // set up dependency injection
 builder.Services.AddDependencies(builder.Configuration);
+// set up automapper
+builder.Services.AddMappings();
 // identity
 builder.Services.AddCustomIdentity(builder.Configuration);
 //authentication

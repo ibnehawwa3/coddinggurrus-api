@@ -1,16 +1,16 @@
-﻿using Coddinggurrus.Core.Interfaces.Repositories.Course;
-using Coddinggurrus.Core.Interfaces.Services.Course;
-using Coddinggurrus.Core.Models.Course;
+﻿using Coddinggurrus.Core.Entities;
+using Coddinggurrus.Core.Interfaces.Repositories.Tutorials;
+using Coddinggurrus.Core.Interfaces.Services.Tutorials;
 using Microsoft.Extensions.Configuration;
 
-namespace Coddinggurrus.Business.Services.Course
+namespace Coddinggurrus.Business.Services.Tutorials
 {
     public class CourseService : BaseService, ICourseService
     {
         private readonly ICourseRepository _courseRepository;
-        public CourseService(ICourseRepository courseRepository,IConfiguration config) : base(config)
+        public CourseService(ICourseRepository courseRepository, IConfiguration config) : base(config)
         {
-            _courseRepository= courseRepository;
+            _courseRepository = courseRepository;
         }
         /// <summary>
         /// 
@@ -19,7 +19,7 @@ namespace Coddinggurrus.Business.Services.Course
         /// <param name="pageSize"></param>
         /// <param name="searchText"></param>
         /// <returns></returns>
-        public async Task<IEnumerable<CourseModel>> GetCourses(int pageNo, int pageSize, string searchText = "")
+        public async Task<IEnumerable<Course>> GetCourses(int pageNo, int pageSize, string searchText = "")
         {
             var skip = (pageNo * pageSize) - pageSize;
             return await _courseRepository.GetCourses(skip, pageSize, searchText);
@@ -29,7 +29,7 @@ namespace Coddinggurrus.Business.Services.Course
         /// </summary>
         /// <param name="course"></param>
         /// <returns></returns>
-        public async Task<int> AddCourse(CourseModel course)
+        public async Task<int> AddCourse(Course course)
         {
             return await _courseRepository.AddCourse(course);
         }
@@ -48,7 +48,7 @@ namespace Coddinggurrus.Business.Services.Course
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public async Task<bool> UpdateCourse(CourseModel model)
+        public async Task<bool> UpdateCourse(Course model)
         {
             return await _courseRepository.UpdateCourse(model);
         }
