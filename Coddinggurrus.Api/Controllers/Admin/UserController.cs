@@ -1,7 +1,6 @@
 ﻿using Coddinggurrus.Core.Interfaces.Services.User;
 using Coddinggurrus.Infrastructure.APIModels;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Coddinggurrus.Api.Controllers.Admin
