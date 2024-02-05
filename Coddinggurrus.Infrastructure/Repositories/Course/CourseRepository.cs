@@ -2,7 +2,6 @@
 using Coddinggurrus.Core.Models.Course;
 using Dapper;
 using Microsoft.Data.SqlClient;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Configuration;
 
 namespace Coddinggurrus.Infrastructure.Repositories.Course
@@ -12,6 +11,13 @@ namespace Coddinggurrus.Infrastructure.Repositories.Course
         public CourseRepository(IConfiguration config) : base(config)
         {
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="skip"></param>
+        /// <param name="take"></param>
+        /// <param name="searchText"></param>
+        /// <returns></returns>
         public async Task<IEnumerable<CourseModel>> GetCourses(int skip, int take, string searchText = "")
         {
             var countSql = @$"SELECT COUNT(*) 
@@ -44,6 +50,11 @@ namespace Coddinggurrus.Infrastructure.Repositories.Course
             grid.Dispose();
             return articles;
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="course"></param>
+        /// <returns></returns>
         public async Task<int> AddCourse(CourseModel course)
         {
             string sql = @"
@@ -56,7 +67,11 @@ namespace Coddinggurrus.Infrastructure.Repositories.Course
 
             return courseId;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="title"></param>
+        /// <returns></returns>
         public async Task<bool> TitleExists(string title)
         {
             var sql = @"SELECT TOP 1 1
