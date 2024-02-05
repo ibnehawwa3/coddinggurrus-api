@@ -1,4 +1,5 @@
-﻿using Coddinggurrus.Core.Entities;
+﻿using AutoMapper;
+using Coddinggurrus.Core.Entities;
 using Coddinggurrus.Core.Interfaces.Repositories.Tutorials;
 using Coddinggurrus.Core.Interfaces.Services.Tutorials;
 using Microsoft.Extensions.Configuration;
@@ -8,7 +9,7 @@ namespace Coddinggurrus.Business.Services.Tutorials
     public class CourseService : BaseService, ICourseService
     {
         private readonly ICourseRepository _courseRepository;
-        public CourseService(ICourseRepository courseRepository, IConfiguration config) : base(config)
+        public CourseService(ICourseRepository courseRepository, IConfiguration config, IMapper mapper) : base(config, mapper)
         {
             _courseRepository = courseRepository;
         }
