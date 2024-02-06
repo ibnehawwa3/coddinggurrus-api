@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
+using System.Net.Http;
 using System.Security.Claims;
 using System.Text;
 
@@ -30,8 +31,7 @@ namespace Coddinggurrus.Api.Controllers
             _configuration = configuration;
         }
         #region Register new User
-        [HttpPost]
-        [Route("/api/account/register")]
+        [HttpPost("register")]
         public async Task<IActionResult> RegisterAsync(RegisterRequest registerRequest)
         {
             BasicResponse basicResponse = new BasicResponse();
