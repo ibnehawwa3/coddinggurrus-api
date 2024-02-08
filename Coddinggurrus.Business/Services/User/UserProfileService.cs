@@ -56,21 +56,15 @@ namespace Coddinggurrus.Business.Services.User
             return Mapper.Map<UserProfileInformation>(userProfile);
         }
 
-        public bool Update(UserProfiles userProfile)
+        public bool Update(UserProfileInformation userProfileInformation)
         {
-            UserProfiles dbUserProfile = _userProfileRepository.GetByUserId(userProfile.UserId);
+            UserProfiles dbUserProfile = _userProfileRepository.GetByUserId(userProfileInformation.UserId);
             if (dbUserProfile.IsNull())
                 throw new GenericException(ErrorMessages.USER_PROFILE_NOT_EXIST);
-
-            dbUserProfile.StreetNumber = userProfile.StreetNumber;
-            dbUserProfile.Town = userProfile.Town;
-            dbUserProfile.ZipCode = userProfile.ZipCode;
-            dbUserProfile.EmailAddress = userProfile.EmailAddress;
-            dbUserProfile.FirstName = userProfile.FirstName;
-            dbUserProfile.LastName = userProfile.LastName;
-            dbUserProfile.MobileNumber = userProfile.MobileNumber;
-            dbUserProfile.UpdatedOn = DateTime.UtcNow;
-            dbUserProfile.Country = userProfile.Country;
+            // Map userProfile to dbUserProfile
+            Mapper.Map(userProfileInformation,dbUserProfile);
+            // Update additional fields
+            dbUserProfile.UpdatedOn = DateTime.Now;
             return _userProfileRepository.Update(dbUserProfile);
         }
     }

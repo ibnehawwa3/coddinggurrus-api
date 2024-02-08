@@ -9,6 +9,6 @@ namespace Coddinggurrus.Core.Interfaces.Services.User
         bool AddProfile(string firstName, string email, string id);
         bool DeleteUser(string id);
         UserProfileInformation GetUserProfileInformation(string id);
-        bool Update(UserProfiles userProfile);
+        bool Update(UserProfileInformation userProfileInformation);
     }
 }
