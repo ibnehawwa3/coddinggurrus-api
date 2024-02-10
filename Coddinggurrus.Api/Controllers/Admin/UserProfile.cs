@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Coddinggurrus.Api.Models.Admin.User;
+using Coddinggurrus.Business.Services.User;
 using Coddinggurrus.Core.Entities;
 using Coddinggurrus.Core.Entities.User;
 using Coddinggurrus.Core.Interfaces.Services.User;
@@ -10,6 +11,7 @@ using Coddinggurrus.Infrastructure.Exceptions;
 using Coddinggurrus.Infrastructure.Helpers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace Coddinggurrus.Api.Controllers.Admin
 {
@@ -24,13 +26,14 @@ namespace Coddinggurrus.Api.Controllers.Admin
         }
         [HttpPost]
         [Route("get-profile")]
-        public IActionResult GetProfile(GetUserProfileRequest getUserProfileRequest)
+        public IActionResult GetProfile([FromBody]GetUserProfileRequest getUserProfileRequest)
         {
             BasicResponse basicResponse = new BasicResponse();
             try
             {
                 UserProfileInformation userProfile = _userProfileService.GetUserProfileInformation(getUserProfileRequest.Id);
-                basicResponse.Data = userProfile;
+
+                basicResponse.Data = JsonConvert.SerializeObject(userProfile);
             }
             catch (Exception e)
             {

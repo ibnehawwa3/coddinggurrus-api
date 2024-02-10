@@ -15,7 +15,7 @@ namespace Coddinggurrus.Business.Services.User
             _userRepository = userRepository;
         }
 
-        public async Task<List<UserModel>> GetList(ListingParameter listingParameter)
+        public async Task<List<UserProfileModel>> GetList(ListingParameter listingParameter)
         {
             return await _userRepository.GetList(listingParameter);
         }

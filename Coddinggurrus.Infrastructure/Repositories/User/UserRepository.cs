@@ -14,7 +14,7 @@ namespace Coddinggurrus.Infrastructure.Repositories.User
         {
         }
 
-        public async Task<List<UserModel>> GetList(ListingParameter listingParameter)
+        public async Task<List<UserProfileModel>> GetList(ListingParameter listingParameter)
         {
             using SqlConnection connection = new(CoddingGurrusDbConnectionString);
             var param = new
@@ -23,7 +23,7 @@ namespace Coddinggurrus.Infrastructure.Repositories.User
                 @pageSize = listingParameter.Take,
                 @searchQuery = listingParameter.TextToSearch
             };
-            var list = (await connection.QueryAsync<UserModel>("CoddingGurrus_Dev_GetUserList", param, commandType: CommandType.StoredProcedure)).ToList();
+            var list = (await connection.QueryAsync<UserProfileModel>("CoddingGurrus_Dev_GetUserList", param, commandType: CommandType.StoredProcedure)).ToList();
             return list;
         }
     }

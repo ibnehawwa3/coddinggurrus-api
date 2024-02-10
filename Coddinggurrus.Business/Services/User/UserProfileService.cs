@@ -71,6 +71,8 @@ namespace Coddinggurrus.Business.Services.User
             dbUserProfile.MobileNumber = userProfile.MobileNumber;
             dbUserProfile.UpdatedOn = DateTime.UtcNow;
             dbUserProfile.Country = userProfile.Country;
+            dbUserProfile.CountryCode = userProfile.CountryCode;
+
             return _userProfileRepository.Update(dbUserProfile);
         }
     }

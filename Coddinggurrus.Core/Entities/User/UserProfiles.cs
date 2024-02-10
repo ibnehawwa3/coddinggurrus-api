@@ -4,6 +4,7 @@ namespace Coddinggurrus.Core.Entities.User
     public class UserProfiles : Entity<int>
     {
         public string UserId { get; set; }
+        public int Id { get; set; }
         public string StreetNumber { get; set; }
         public string ZipCode { get; set; }
         public string Town { get; set; }

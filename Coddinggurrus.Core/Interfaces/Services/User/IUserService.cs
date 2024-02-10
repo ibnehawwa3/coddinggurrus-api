@@ -6,6 +6,6 @@ namespace Coddinggurrus.Core.Interfaces.Services.User
 {
     public interface IUserService
     {
-        Task<List<UserModel>> GetList(ListingParameter listingParameter);
+        Task<List<UserProfileModel>> GetList(ListingParameter listingParameter);
     }
 }

@@ -42,7 +42,7 @@ namespace Coddinggurrus.Infrastructure.Repositories.User
 
         public bool Delete(string Id)
         {
-            const string sqlQuery = @"UPDATE UserProfiles SET IsDeleted = @IsDeleted WHERE Id = @Id";
+            const string sqlQuery = @"UPDATE UserProfiles SET IsDeleted = @IsDeleted WHERE UserId = @Id";
             using SqlConnection connection = new(CoddingGurrusDbConnectionString);
             int result = connection.Execute(sqlQuery, new
             {
@@ -73,7 +73,8 @@ namespace Coddinggurrus.Infrastructure.Repositories.User
                                 Country = @Country,                                        
                                 UpdatedBy = @UpdatedBy,
                                 UpdatedOn = @UpdatedOn,
-                                MobileNumber = @MobileNumber
+                                MobileNumber = @MobileNumber,
+                                CountryCode=@CountryCode
                              WHERE Id = @Id";
             using SqlConnection connection = new(CoddingGurrusDbConnectionString);
             int result = connection.Execute(sqlQuery, new
@@ -89,6 +90,7 @@ namespace Coddinggurrus.Infrastructure.Repositories.User
                 UpdatedBy = userProfiles.UpdatedBy,
                 UpdatedOn = userProfiles.UpdatedOn,
                 MobileNumber = userProfiles.MobileNumber,
+                CountryCode = userProfiles.CountryCode,
                 Id = userProfiles.Id
             });
             return result > 0;

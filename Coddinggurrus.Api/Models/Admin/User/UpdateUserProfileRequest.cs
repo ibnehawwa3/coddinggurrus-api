@@ -6,6 +6,7 @@ namespace Coddinggurrus.Api.Models.Admin.User
     {
         [Required]
         public string UserId { get; set; }
+        public string CountryCode { get; set; }
         public string MobileNumber { get; set; }
         public string EmailAddress { get; set; }
         public string FirstName { get; set; }
