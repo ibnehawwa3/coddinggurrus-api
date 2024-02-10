@@ -1,4 +1,5 @@
 ﻿using Coddinggurrus.Core.Entities.User;
+using Coddinggurrus.Core.Interfaces.Services.User;
 using Coddinggurrus.Infrastructure.APIModels;
 using Coddinggurrus.Infrastructure.APIRequestModels.User;
 using Coddinggurrus.Infrastructure.Enums;
@@ -23,12 +24,14 @@ namespace Coddinggurrus.Api.Controllers
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly JwtSecurityTokenHandler _jwtSecurityTokenHandler;
         private readonly IConfiguration _configuration;
-        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IConfiguration configuration)
+        private readonly IUserProfileService _userProfileService;
+        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IConfiguration configuration, IUserProfileService userProfileService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _jwtSecurityTokenHandler = new JwtSecurityTokenHandler();
             _configuration = configuration;
+            _userProfileService = userProfileService;
         }
         #region Register new User
         [HttpPost("register")]
@@ -40,7 +43,6 @@ namespace Coddinggurrus.Api.Controllers
             {
                 ApplicationUser user = new ApplicationUser()
                 {
-                    FirstName = registerRequest.FirstName,
                     UserName = registerRequest.Email,
                     Email = registerRequest.Email,
                     DateRegistration = DateTime.UtcNow,
@@ -55,7 +57,11 @@ namespace Coddinggurrus.Api.Controllers
                         ApplicationUser newUser = await this._userManager.FindByEmailAsync(registerRequest.Email);
                         try
                         {
-                            basicResponse.Data = newUser.UserName;
+                            bool r = _userProfileService.AddProfile(registerRequest.FirstName, registerRequest.Email, newUser.Id);
+                            if (r)
+                            {
+                                basicResponse.Data = newUser.UserName;
+                            }
                         }
                         catch (Exception ex)
                         {

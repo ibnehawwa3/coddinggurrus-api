@@ -2,13 +2,14 @@
 using Coddinggurrus.Core.Interfaces.Services.User;
 using Coddinggurrus.Core.Models.User;
 using Coddinggurrus.Infrastructure.APIModels;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Text.Json.Serialization;
 
 namespace Coddinggurrus.Api.Controllers.Admin
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
