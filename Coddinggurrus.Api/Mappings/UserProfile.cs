@@ -9,8 +9,9 @@ namespace Coddinggurrus.Api.Mappings
     {
         public UserProfile()
         {
-            CreateMap<UpdateUserProfileRequest, UserProfiles>();
+            CreateMap<UpdateUserProfileRequest, UserProfileInformation>();
             CreateMap<UserProfiles,UserProfileInformation>();
+            CreateMap<UserProfileInformation,UserProfiles>();
         }
     }
 }
