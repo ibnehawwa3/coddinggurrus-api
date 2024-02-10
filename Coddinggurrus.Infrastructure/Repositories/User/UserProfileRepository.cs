@@ -33,8 +33,8 @@ namespace Coddinggurrus.Infrastructure.Repositories.User
                 IsDeleted = userProfile.IsDeleted,
                 VerificationCode = userProfile.VerificationCode,
                 UpdatedBy = userProfile.UpdatedBy,
-                CreatedOn = userProfile.CreatedOn,
-                UpdatedOn = userProfile.UpdatedOn
+                CreatedOn = DateTime.Now,
+                UpdatedOn = DateTime.Now
             });
             IsAdded = result > 0;
             return IsAdded;

@@ -20,24 +20,9 @@ namespace Coddinggurrus.Business.Services.User
             _userProfileRepository = userProfileRepository;
         }
 
-        public bool AddProfile(string firstName, string email, string id)
+        public bool AddProfile(UserProfiles userProfiles)
         {
-            UserProfiles userProfile = new UserProfiles()
-            {
-                UserId = id,
-                EmailAddress = email,
-                MobileNumber = firstName,
-                Country = string.Empty,
-                CountryCode = string.Empty,
-                FirstName = firstName,
-                LastName = string.Empty,
-                CreatedOn = DateTime.UtcNow,
-                UpdatedBy = string.Empty,
-                UpdatedOn = DateTime.UtcNow,
-                IsDeleted = false,
-                VerificationCode = string.Empty,
-            };
-            return _userProfileRepository.Add(userProfile);
+            return _userProfileRepository.Add(userProfiles);
         }
 
         public bool DeleteUser(string id)

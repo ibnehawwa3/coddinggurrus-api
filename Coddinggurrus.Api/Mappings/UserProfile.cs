@@ -2,6 +2,7 @@
 using Coddinggurrus.Api.Models.Admin.User;
 using Coddinggurrus.Core.Entities.User;
 using Coddinggurrus.Core.Models.User;
+using Coddinggurrus.Infrastructure.APIRequestModels.User;
 
 namespace Coddinggurrus.Api.Mappings
 {
@@ -11,6 +12,7 @@ namespace Coddinggurrus.Api.Mappings
         {
             CreateMap<UpdateUserProfileRequest, UserProfiles>();
             CreateMap<UserProfiles,UserProfileInformation>();
+            CreateMap<RegisterRequest, UserProfiles>();
         }
     }
 }
