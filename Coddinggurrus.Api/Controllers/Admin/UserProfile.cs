@@ -48,7 +48,7 @@ namespace Coddinggurrus.Api.Controllers.Admin
             BasicResponse basicResponse = new BasicResponse();
             try
             {
-                basicResponse.Data = _userProfileService.Update(Mapper.Map<UserProfiles>(model));
+                basicResponse.Data = _userProfileService.Update(Mapper.Map<UserProfileInformation>(model));
             }
             catch (Exception e)
             {
