@@ -1,0 +1,24 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Coddinggurrus.Core.Entities
+{
+    public class Menu : Entity<int>
+    {
+        public string Name { get; set; }
+        public string Url { get; set; }
+        public int ParentId { get; set; }
+        public int MenuOrder { get; set; }
+        public string MenuImage { get; set; }
+        public bool Archived { get; set; }
+        public bool IsShow { get; set; }
+    }
+    public class MenuWithCount : Menu
+    {
+        public int TotalCount { get; set; }
+
+    }
+}

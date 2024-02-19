@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Coddinggurrus.Api.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public abstract class ApiController : ControllerBase
