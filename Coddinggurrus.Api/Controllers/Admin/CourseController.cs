@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using Coddinggurrus.Api.Models.Admin.Course;
 using Coddinggurrus.Core.Entities;
+using Coddinggurrus.Core.Helper;
 using Coddinggurrus.Core.Interfaces.Services.Tutorials;
 using Coddinggurrus.Infrastructure.APIModels;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace Coddinggurrus.Api.Controllers.Admin
 {
@@ -16,13 +18,13 @@ namespace Coddinggurrus.Api.Controllers.Admin
         }
         [HttpGet("list")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetList(int pageNo, int pageSize, string searchText = "")
+        public async Task<IActionResult> GetList([FromQuery] ListingParameter listingParameter)
         {
             BasicResponse basicResponse = new BasicResponse();
             try
             {
-                var users = await _courseService.GetCourses(pageNo, pageSize, searchText);
-                basicResponse.Data = users;
+                var courses = await _courseService.GetCourses(listingParameter);
+                basicResponse.Data = JsonConvert.SerializeObject(courses);
             }
             catch (Exception e)
             {

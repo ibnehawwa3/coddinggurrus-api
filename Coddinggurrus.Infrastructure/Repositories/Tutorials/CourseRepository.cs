@@ -1,8 +1,10 @@
 ﻿using Coddinggurrus.Core.Entities;
+using Coddinggurrus.Core.Helper;
 using Coddinggurrus.Core.Interfaces.Repositories.Tutorials;
 using Dapper;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Coddinggurrus.Infrastructure.Repositories.Tutorials
 {
@@ -18,13 +20,13 @@ namespace Coddinggurrus.Infrastructure.Repositories.Tutorials
         /// <param name="take"></param>
         /// <param name="searchText"></param>
         /// <returns></returns>
-        public async Task<IEnumerable<Course>> GetCourses(int skip, int take, string searchText = "")
+        public async Task<IEnumerable<Course>> GetCourses(ListingParameter listingParameter)
         {
             var countSql = @$"SELECT COUNT(*) 
                      FROM dbo.Course a with (nolock) 
-                     WHERE a.Title like '%{searchText}%'";
+                     WHERE a.Title like '%{listingParameter.TextToSearch}%'";
             string sql;
-            if (string.IsNullOrEmpty(searchText))
+            if (string.IsNullOrEmpty(listingParameter.TextToSearch))
             {
                 sql = @$"SELECT a.Id, a.Title, a.Description
              FROM dbo.Course a with (nolock)                       
@@ -36,19 +38,19 @@ namespace Coddinggurrus.Infrastructure.Repositories.Tutorials
             {
                 sql = @$"SELECT a.Id, a.Title, a.Description
              FROM dbo.Course a with (nolock)
-             WHERE a.Title like '%{searchText}%'                        
+             WHERE a.Title like '%{listingParameter.TextToSearch}%'                        
              ORDER BY a.CreatedBy desc
              OFFSET @skip ROWS FETCH NEXT @take ROWS ONLY
              {countSql}";
             }
             using SqlConnection connection = new(CoddingGurrusDbConnectionString);
-            var grid = await connection.QueryMultipleAsync(sql, new { searchText, skip, take });
-            var articles = grid.Read<CourseWithCount>().ToList();
-            var TotalCount = grid.Read<int>().FirstOrDefault();
-            articles.ForEach(article => article.TotalCount = TotalCount);
+            var grid = await connection.QueryMultipleAsync(sql, new { listingParameter.TextToSearch, listingParameter.Skip, listingParameter.Take });
+            var courses = grid.Read<CourseWithCount>().ToList();
+            var TotalRecords = grid.Read<int>().FirstOrDefault();
+            courses.ForEach(article => article.TotalRecords = TotalRecords);
 
             grid.Dispose();
-            return articles;
+            return courses;
         }
         /// <summary>
         /// 

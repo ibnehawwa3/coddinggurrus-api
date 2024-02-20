@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Coddinggurrus.Core.Entities;
+using Coddinggurrus.Core.Helper;
 using Coddinggurrus.Core.Interfaces.Repositories.Tutorials;
 using Coddinggurrus.Core.Interfaces.Services.Tutorials;
 using Microsoft.Extensions.Configuration;
@@ -20,10 +21,11 @@ namespace Coddinggurrus.Business.Services.Tutorials
         /// <param name="pageSize"></param>
         /// <param name="searchText"></param>
         /// <returns></returns>
-        public async Task<IEnumerable<Course>> GetCourses(int pageNo, int pageSize, string searchText = "")
+        public async Task<IEnumerable<Course>> GetCourses(ListingParameter listingParameter)
         {
-            var skip = (pageNo * pageSize) - pageSize;
-            return await _courseRepository.GetCourses(skip, pageSize, searchText);
+            //var skip = (listingParameter.Skip * listingParameter.Take) - listingParameter.Take;
+            //return await _courseRepository.GetCourses(skip, pageSize, searchText);
+            return await _courseRepository.GetCourses(listingParameter);
         }
         /// <summary>
         /// 
