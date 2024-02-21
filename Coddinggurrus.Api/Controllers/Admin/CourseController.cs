@@ -42,8 +42,16 @@ namespace Coddinggurrus.Api.Controllers.Admin
                 if (string.IsNullOrEmpty(model.Title))
                     return BadRequest($"Missing required fields.");
 
+                //var titleExists = await _courseService.TitleExists(model.Title);
+                //if (titleExists) return BadRequest($"Course {model.Title} already exists.");
+
                 var titleExists = await _courseService.TitleExists(model.Title);
-                if (titleExists) return BadRequest($"Course {model.Title} already exists.");
+                if (titleExists)
+                {
+                    basicResponse.ErrorMessage = $"Course {model.Title} already exists.";
+                    basicResponse.Success = false;
+                    return Conflict(basicResponse);
+                }
 
                 var users = await _courseService.AddCourse(Mapper.Map<Course>(model));
                 basicResponse.Data = users;
