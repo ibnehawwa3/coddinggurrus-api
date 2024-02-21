@@ -64,5 +64,10 @@ namespace Coddinggurrus.Business.Services.Tutorials
         {
             return await _courseRepository.DeleteCourse(Id);
         }
+
+        public async Task<Course> GetCourseById(long id)
+        {
+            return await _courseRepository.GetCourseById(id);
+        }
     }
 }

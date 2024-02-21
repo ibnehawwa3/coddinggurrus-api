@@ -11,5 +11,6 @@ namespace Coddinggurrus.Core.Interfaces.Repositories.Tutorials
         Task<bool> TitleExists(string title);
         Task<bool> UpdateCourse(Course model);
         Task<bool> DeleteCourse(long Id);
+        Task<Course> GetCourseById(long id);
     }
 }

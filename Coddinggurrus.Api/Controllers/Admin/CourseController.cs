@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Coddinggurrus.Api.Models.Admin.Course;
+using Coddinggurrus.Api.Models.Admin.Generic;
 using Coddinggurrus.Core.Entities;
 using Coddinggurrus.Core.Helper;
 using Coddinggurrus.Core.Interfaces.Services.Tutorials;
@@ -32,6 +33,24 @@ namespace Coddinggurrus.Api.Controllers.Admin
             }
             return Ok(basicResponse);
         }
+
+        [HttpGet("get-course")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetCourseById([FromQuery] IdRequestModel idRequestModel)
+        {
+            BasicResponse basicResponse = new BasicResponse();
+            try
+            {
+                var course = await _courseService.GetCourseById(Convert.ToInt64(idRequestModel.Id));
+                basicResponse.Data = JsonConvert.SerializeObject(course);
+            }
+            catch (Exception e)
+            {
+                basicResponse.ErrorMessage = e.Message;
+            }
+            return Ok(basicResponse);
+        }
+
         [HttpPost("add")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> Add(CourseModel model)

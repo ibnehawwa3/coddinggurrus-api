@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Coddinggurrus.Api.Models.Admin.User
+namespace Coddinggurrus.Api.Models.Admin.Generic
 {
-    public class GetUserProfileRequest
+    public class IdRequestModel
     {
         [Required]
         public string Id { get; set; }

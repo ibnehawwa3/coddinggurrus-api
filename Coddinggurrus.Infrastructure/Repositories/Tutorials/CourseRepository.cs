@@ -116,5 +116,19 @@ namespace Coddinggurrus.Infrastructure.Repositories.Tutorials
             var result = await connection.ExecuteAsync(sql, new { Id });
             return result > 0;
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<Course> GetCourseById(long id)
+        {
+            var sql = @"SELECT Id, Title, Description FROM Course WHERE Id = @Id";
+
+            using SqlConnection connection = new(CoddingGurrusDbConnectionString);
+            var course = await connection.QuerySingleOrDefaultAsync<Course>(sql, new { Id = id });
+            return course;
+        }
+
     }
 }

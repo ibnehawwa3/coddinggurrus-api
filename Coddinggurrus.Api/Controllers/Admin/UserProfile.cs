@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Coddinggurrus.Api.Models.Admin.Generic;
 using Coddinggurrus.Api.Models.Admin.User;
 using Coddinggurrus.Business.Services.User;
 using Coddinggurrus.Core.Entities;
@@ -26,7 +27,7 @@ namespace Coddinggurrus.Api.Controllers.Admin
         }
         [HttpPost]
         [Route("get-profile")]
-        public IActionResult GetProfile([FromBody]GetUserProfileRequest getUserProfileRequest)
+        public IActionResult GetProfile([FromBody] IdRequestModel getUserProfileRequest)
         {
             BasicResponse basicResponse = new BasicResponse();
             try
