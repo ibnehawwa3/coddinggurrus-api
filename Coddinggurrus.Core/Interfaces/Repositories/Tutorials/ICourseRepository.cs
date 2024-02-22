@@ -1,5 +1,4 @@
-﻿
-using Coddinggurrus.Core.Entities;
+﻿using Coddinggurrus.Core.Entities.Tutorials;
 using Coddinggurrus.Core.Helper;
 
 namespace Coddinggurrus.Core.Interfaces.Repositories.Tutorials

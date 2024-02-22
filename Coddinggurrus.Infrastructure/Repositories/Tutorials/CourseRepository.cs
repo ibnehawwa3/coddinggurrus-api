@@ -1,4 +1,4 @@
-﻿using Coddinggurrus.Core.Entities;
+﻿using Coddinggurrus.Core.Entities.Tutorials;
 using Coddinggurrus.Core.Helper;
 using Coddinggurrus.Core.Interfaces.Repositories.Tutorials;
 using Dapper;

@@ -10,12 +10,12 @@ using Newtonsoft.Json;
 
 namespace Coddinggurrus.Api.Controllers.Admin.Tutorials
 {
-    public class CourseController : AdminController
+    public class TopicController : AdminController
     {
-        private readonly ICourseService _courseService;
-        public CourseController(ICourseService courseService, IMapper mapper, IConfiguration config) : base(mapper, config)
+        private readonly ITopicService _topicService;
+        public TopicController(ITopicService topicService, IMapper mapper, IConfiguration config) : base(mapper, config)
         {
-            _courseService = courseService;
+            _topicService = topicService;
         }
         [HttpGet("list")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -24,7 +24,7 @@ namespace Coddinggurrus.Api.Controllers.Admin.Tutorials
             BasicResponse basicResponse = new BasicResponse();
             try
             {
-                var courses = await _courseService.GetCourses(listingParameter);
+                var courses = await _topicService.GetTopics(listingParameter);
                 basicResponse.Data = JsonConvert.SerializeObject(courses);
             }
             catch (Exception e)
@@ -34,14 +34,14 @@ namespace Coddinggurrus.Api.Controllers.Admin.Tutorials
             return Ok(basicResponse);
         }
 
-        [HttpPost("get-course")]
+        [HttpPost("get-topic")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetCourseById([FromBody] IntIdRequestModel intIdRequestModel)
         {
             BasicResponse basicResponse = new BasicResponse();
             try
             {
-                var course = await _courseService.GetCourseById(intIdRequestModel.Id);
+                var course = await _topicService.GetTopicById(intIdRequestModel.Id);
                 basicResponse.Data = JsonConvert.SerializeObject(course);
             }
             catch (Exception e)
@@ -61,7 +61,7 @@ namespace Coddinggurrus.Api.Controllers.Admin.Tutorials
                 if (string.IsNullOrEmpty(model.Title))
                     return BadRequest($"Missing required fields.");
 
-                var titleExists = await _courseService.TitleExists(model.Title);
+                var titleExists = await _topicService.TitleExists(model.Title);
                 if (titleExists)
                 {
                     basicResponse.ErrorMessage = $"Course {model.Title} already exists.";
@@ -69,7 +69,7 @@ namespace Coddinggurrus.Api.Controllers.Admin.Tutorials
                     return Conflict(basicResponse);
                 }
 
-                var users = await _courseService.AddCourse(Mapper.Map<Course>(model));
+                var users = await _topicService.AddTopic(Mapper.Map<Topic>(model));
                 basicResponse.Data = users;
             }
             catch (Exception e)
@@ -89,7 +89,7 @@ namespace Coddinggurrus.Api.Controllers.Admin.Tutorials
                 if (string.IsNullOrEmpty(model.Title))
                     return BadRequest($"Missing required fields.");
 
-                await _courseService.UpdateCourse(Mapper.Map<Course>(model));
+                await _topicService.UpdateTopic(Mapper.Map<Topic>(model));
                 basicResponse.Data = NoContent();
             }
             catch (Exception e)
@@ -106,7 +106,7 @@ namespace Coddinggurrus.Api.Controllers.Admin.Tutorials
             BasicResponse basicResponse = new BasicResponse();
             try
             {
-                await _courseService.DeleteCourse(Id);
+                await _topicService.DeleteTopic(Id);
                 basicResponse.Data = NoContent();
             }
             catch (Exception e)
@@ -115,6 +115,5 @@ namespace Coddinggurrus.Api.Controllers.Admin.Tutorials
             }
             return Ok(basicResponse);
         }
-
     }
 }

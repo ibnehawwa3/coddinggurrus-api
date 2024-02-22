@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using Coddinggurrus.Api.Models.Admin.Course;
-using Coddinggurrus.Core.Entities;
+using Coddinggurrus.Core.Entities.Tutorials;
 
-namespace Coddinggurrus.Api.Mappings
+namespace Coddinggurrus.Api.Mappings.Tutorials
 {
     public class CourseProfile : Profile
     {
