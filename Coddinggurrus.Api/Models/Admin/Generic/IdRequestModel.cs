@@ -7,4 +7,9 @@ namespace Coddinggurrus.Api.Models.Admin.Generic
         [Required]
         public string Id { get; set; }
     }
+    public class IntIdRequestModel
+    {
+        [Required]
+        public long Id { get; set; }
+    }
 }

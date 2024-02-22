@@ -27,12 +27,12 @@ namespace Coddinggurrus.Api.Controllers.Admin
         }
         [HttpPost]
         [Route("get-profile")]
-        public IActionResult GetProfile([FromBody] IdRequestModel getUserProfileRequest)
+        public IActionResult GetProfile([FromBody] IdRequestModel idRequestModel)
         {
             BasicResponse basicResponse = new BasicResponse();
             try
             {
-                UserProfileInformation userProfile = _userProfileService.GetUserProfileInformation(getUserProfileRequest.Id);
+                UserProfileInformation userProfile = _userProfileService.GetUserProfileInformation(idRequestModel.Id);
 
                 basicResponse.Data = JsonConvert.SerializeObject(userProfile);
             }

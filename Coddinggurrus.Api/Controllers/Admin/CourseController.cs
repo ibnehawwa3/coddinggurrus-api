@@ -34,14 +34,14 @@ namespace Coddinggurrus.Api.Controllers.Admin
             return Ok(basicResponse);
         }
 
-        [HttpGet("get-course")]
+        [HttpPost("get-course")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetCourseById([FromQuery] IdRequestModel idRequestModel)
+        public async Task<IActionResult> GetCourseById([FromBody] IntIdRequestModel intIdRequestModel)
         {
             BasicResponse basicResponse = new BasicResponse();
             try
             {
-                var course = await _courseService.GetCourseById(Convert.ToInt64(idRequestModel.Id));
+                var course = await _courseService.GetCourseById(intIdRequestModel.Id);
                 basicResponse.Data = JsonConvert.SerializeObject(course);
             }
             catch (Exception e)
