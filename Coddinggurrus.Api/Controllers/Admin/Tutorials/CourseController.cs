@@ -8,14 +8,14 @@ using Coddinggurrus.Infrastructure.APIModels;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
-namespace Coddinggurrus.Api.Controllers.Admin
+namespace Coddinggurrus.Api.Controllers.Admin.Tutorials
 {
     public class CourseController : AdminController
     {
         private readonly ICourseService _courseService;
         public CourseController(ICourseService courseService, IMapper mapper, IConfiguration config) : base(mapper, config)
         {
-            _courseService= courseService;
+            _courseService = courseService;
         }
         [HttpGet("list")]
         [ProducesResponseType(StatusCodes.Status200OK)]
