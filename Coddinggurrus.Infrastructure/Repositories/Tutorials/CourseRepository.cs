@@ -4,7 +4,6 @@ using Coddinggurrus.Core.Interfaces.Repositories.Tutorials;
 using Dapper;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
 
 namespace Coddinggurrus.Infrastructure.Repositories.Tutorials
 {
