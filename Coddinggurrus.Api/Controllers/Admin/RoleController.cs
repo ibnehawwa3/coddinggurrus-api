@@ -2,6 +2,7 @@
 using Coddinggurrus.Business.Services.User;
 using Coddinggurrus.Core.Entities.Role;
 using Coddinggurrus.Core.Entities.User;
+using Coddinggurrus.Core.Helper;
 using Coddinggurrus.Core.Interfaces.Services.User;
 using Coddinggurrus.Infrastructure.APIModels;
 using Coddinggurrus.Infrastructure.APIRequestModels.User;
@@ -10,6 +11,7 @@ using Coddinggurrus.Infrastructure.Exceptions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using System.IdentityModel.Tokens.Jwt;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -32,27 +34,34 @@ namespace Coddinggurrus.Api.Controllers.Admin
         }
 
         [HttpGet]
-        public Task<List<ApplicationRole>> Get()
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> Get()
         {
-            return basicResponse.Data=_roleManager.Roles.ToListAsync();
-        }
-
-
-        [HttpGet("{id}")]
-        public Task<ApplicationRole> GetById()
-        {
-            return basicResponse.Data = _roleManager.Roles.FirstOrDefaultAsync();
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Post([FromQuery] string RoleName)
-        {
-            ApplicationRole appicationRole = new ApplicationRole
+            try
             {
-                Name = RoleName,
-                Id=RoleName
-            };
-            IdentityResult roleResult = await this._roleManager.CreateAsync(appicationRole);
+                var roles =await _roleManager.Roles.ToListAsync();
+                basicResponse.Data = JsonConvert.SerializeObject(roles);
+            }
+            catch (Exception e)
+            {
+                basicResponse.ErrorMessage = e.Message;
+            }
+            return Ok(basicResponse);
+        }
+
+
+        [HttpGet("GetById")]
+        public async Task<IActionResult> GetById(string Id)
+        {
+            var roleById =await _roleManager.Roles.FirstOrDefaultAsync(s=>s.Id==Id);
+            basicResponse.Data=JsonConvert.SerializeObject(roleById);
+            return Ok(basicResponse);
+        }
+
+        [HttpPost("PostRole")]
+        public async Task<IActionResult> Post(ApplicationRole Role)
+        {
+            IdentityResult roleResult = await this._roleManager.CreateAsync(Role);
             if (roleResult.Succeeded)
             {
                 basicResponse.Success = true;
@@ -63,14 +72,15 @@ namespace Coddinggurrus.Api.Controllers.Admin
             return Ok(basicResponse);
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Put(string id , string RoleName)
+        [HttpPost("Put")]
+        public async Task<IActionResult> Put(ApplicationRole role)
         {
-            ApplicationRole applicationRole = await _roleManager.FindByIdAsync(id);
+            ApplicationRole applicationRole = await _roleManager.FindByIdAsync(role.Id);
 
             if (applicationRole != null)
             {
-                applicationRole.Name = RoleName;
+                applicationRole.Name = role.Name;
+                applicationRole.NormalizedName = role.Name;
                 IdentityResult result = await _roleManager.UpdateAsync(applicationRole);
 
                 if (result.Succeeded)
@@ -86,7 +96,7 @@ namespace Coddinggurrus.Api.Controllers.Admin
             return Ok(basicResponse);
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("Delete")]
         public async Task<IActionResult> Delete(string id)
         {
             ApplicationRole applicationRole = await _roleManager.FindByIdAsync(id);
