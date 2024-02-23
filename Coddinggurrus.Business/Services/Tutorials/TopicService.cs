@@ -18,11 +18,11 @@ namespace Coddinggurrus.Business.Services.Tutorials
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="course"></param>
+        /// <param name="topic"></param>
         /// <returns></returns>
-        public async Task<int> AddTopic(Topic course)
+        public async Task<int> AddTopic(Topic topic)
         {
-            return await _topicRepository.AddTopic(course);
+            return await _topicRepository.AddTopic(topic);
         }
         /// <summary>
         /// 

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Coddinggurrus.Api.Models.Admin.Course;
 using Coddinggurrus.Api.Models.Admin.Generic;
+using Coddinggurrus.Api.Models.Admin.Tutorials;
 using Coddinggurrus.Core.Entities.Tutorials;
 using Coddinggurrus.Core.Helper;
 using Coddinggurrus.Core.Interfaces.Services.Tutorials;
@@ -53,7 +54,7 @@ namespace Coddinggurrus.Api.Controllers.Admin.Tutorials
 
         [HttpPost("add")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> Add(CourseModel model)
+        public async Task<IActionResult> Add(TopicModel model)
         {
             BasicResponse basicResponse = new BasicResponse();
             try
@@ -64,7 +65,7 @@ namespace Coddinggurrus.Api.Controllers.Admin.Tutorials
                 var titleExists = await _topicService.TitleExists(model.Title);
                 if (titleExists)
                 {
-                    basicResponse.ErrorMessage = $"Course {model.Title} already exists.";
+                    basicResponse.ErrorMessage = $"Topic {model.Title} already exists.";
                     basicResponse.Success = false;
                     return Conflict(basicResponse);
                 }
@@ -81,7 +82,7 @@ namespace Coddinggurrus.Api.Controllers.Admin.Tutorials
 
         [HttpPost("update")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> UpdateCourse(CourseModel model)
+        public async Task<IActionResult> UpdateCourse(TopicModel model)
         {
             BasicResponse basicResponse = new BasicResponse();
             try

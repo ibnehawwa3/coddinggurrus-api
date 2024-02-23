@@ -15,18 +15,18 @@ namespace Coddinggurrus.Infrastructure.Repositories.Tutorials
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="course"></param>
+        /// <param name="topic"></param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        public async Task<int> AddTopic(Topic course)
+        public async Task<int> AddTopic(Topic topic)
         {
             string sql = @"
-            INSERT INTO dbo.Topic (Title, Description)
-            VALUES (@Title, @Description);
+            INSERT INTO dbo.Topic (Title, Description,CourseId)
+            VALUES (@Title, @Description,@CourseId);
             SELECT SCOPE_IDENTITY();";
 
             using SqlConnection connection = new(CoddingGurrusDbConnectionString);
-            int topicId = await connection.ExecuteScalarAsync<int>(sql, course);
+            int topicId = await connection.ExecuteScalarAsync<int>(sql, topic);
 
             return topicId;
         }
@@ -38,9 +38,10 @@ namespace Coddinggurrus.Infrastructure.Repositories.Tutorials
         /// <exception cref="NotImplementedException"></exception>
         public async Task<bool> DeleteTopic(long Id)
         {
-            var sql = @"DELETE FROM Topic                         
+            var sql = @"
+            UPDATE Topic
+            SET IsActive = 0
             WHERE Id = @Id";
-
             using SqlConnection connection = new(CoddingGurrusDbConnectionString);
             var result = await connection.ExecuteAsync(sql, new { Id });
             return result > 0;
@@ -124,7 +125,8 @@ namespace Coddinggurrus.Infrastructure.Repositories.Tutorials
         {
             var sql = @"UPDATE Topic 
                  SET Title = @Title,
-                     Description = @Description
+                     Description = @Description,
+                     CourseId = @CourseId
                  WHERE Id = @Id";
 
             using SqlConnection connection = new(CoddingGurrusDbConnectionString);
