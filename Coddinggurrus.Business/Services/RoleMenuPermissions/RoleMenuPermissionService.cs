@@ -28,17 +28,17 @@ namespace Coddinggurrus.Business.Services.RoleMenuPermissions
         /// <param name="pageSize"></param>
         /// <param name="searchText"></param>
         /// <returns></returns>
-        public async Task<IEnumerable<RoleMenuPermission>> GetRoleMenuPermission(ListingParameter listingParameter)
+        public async Task<IEnumerable<RoleMenuPermission>> GetRoleMenuPermission(string RoleId)
         {
             ///listingParameter.Skip = (listingParameter.Skip * listingParameter.Take) - pageSize;
-            return await _roleMenuPermissionRepositry.GetRoleMenuPermission(listingParameter);
+            return await _roleMenuPermissionRepositry.GetRoleMenuPermission(RoleId);
         }
         /// <summary>
         /// 
         /// </summary>
         /// <param name="course"></param>
         /// <returns></returns>
-        public async Task<int> AddRoleMenuPermission(RoleMenuPermission roleMenuPermission)
+        public async Task<int> AddRoleMenuPermission(List<RoleMenuPermission> roleMenuPermission)
         {
             return await _roleMenuPermissionRepositry.AddRoleMenuPermission(roleMenuPermission);
         }

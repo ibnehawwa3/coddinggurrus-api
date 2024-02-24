@@ -36,6 +36,12 @@ namespace Coddinggurrus.Business.Services.Menus
             ///listingParameter.Skip = (listingParameter.Skip * listingParameter.Take) - pageSize;
             return await _menuRepository.GetMenus(listingParameter);
         }
+
+        public async Task<Menu> GetMenuById(int id)
+        {
+            ///listingParameter.Skip = (listingParameter.Skip * listingParameter.Take) - pageSize;
+            return await _menuRepository.GetMenuById(id);
+        }
         /// <summary>
         /// 
         /// </summary>

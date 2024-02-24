@@ -1,14 +1,14 @@
 ﻿using AutoMapper;
 using Coddinggurrus.Api.Models.Admin.Course;
 using Coddinggurrus.Api.Models.Admin.Menu;
-using Coddinggurrus.Business.Services.Tutorials;
+
 using Coddinggurrus.Core.Entities;
 using Coddinggurrus.Core.Helper;
-using Coddinggurrus.Core.Interfaces.Repositories.MenuRepo;
 using Coddinggurrus.Core.Interfaces.Services.Menus;
-using Coddinggurrus.Core.Interfaces.Services.Tutorials;
 using Coddinggurrus.Infrastructure.APIModels;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 
 namespace Coddinggurrus.Api.Controllers.Admin
@@ -18,21 +18,21 @@ namespace Coddinggurrus.Api.Controllers.Admin
     public class MenuController : AdminController
     {
         private readonly IMenuService _menuService;
-
+        BasicResponse basicResponse;
         public MenuController(IMenuService menuService, IMapper mapper, IConfiguration config) : base(mapper, config)
         {
             _menuService = menuService;
+            basicResponse = new BasicResponse();
         }
 
         [HttpGet("list")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetList([FromQuery]ListingParameter listingParameter)
         {
-            BasicResponse basicResponse = new BasicResponse();
             try
             {
-                var users = await _menuService.GetMenus(listingParameter);
-                basicResponse.Data = users;
+                var menus = await _menuService.GetMenus(listingParameter);
+                basicResponse.Data = JsonConvert.SerializeObject(menus);
             }
             catch (Exception e)
             {
@@ -40,11 +40,11 @@ namespace Coddinggurrus.Api.Controllers.Admin
             }
             return Ok(basicResponse);
         }
-        [HttpPost("add")]
+        [HttpPost]
+        [Route("add")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> Add([FromBody]MenuModel model)
         {
-            BasicResponse basicResponse = new BasicResponse();
             try
             {
                 if (string.IsNullOrEmpty(model.Name))
@@ -53,8 +53,8 @@ namespace Coddinggurrus.Api.Controllers.Admin
                 var nameExists = await _menuService.NameExists(model.Name);
                 if (nameExists) return BadRequest($"Course {model.Name} already exists.");
 
-                var users = await _menuService.AddMenu(Mapper.Map<Menu>(model));
-                basicResponse.Data = users;
+                var menus = await _menuService.AddMenu(Mapper.Map<Menu>(model));
+                basicResponse.Data = JsonConvert.SerializeObject(menus);
             }
             catch (Exception e)
             {
@@ -63,11 +63,19 @@ namespace Coddinggurrus.Api.Controllers.Admin
             return Ok(basicResponse);
         }
 
-        [HttpPost("update")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> UpdateCourse([FromBody]MenuModel model)
+        [HttpGet("GetById")]
+        public async Task<IActionResult> GetById(int Id)
         {
-            BasicResponse basicResponse = new BasicResponse();
+            var menu = await _menuService.GetMenuById(Id);
+            basicResponse.Data = JsonConvert.SerializeObject(menu);
+            return Ok(basicResponse);
+        }
+
+        [HttpPost]
+        [Route("update")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> Update([FromBody]MenuModel model)
+        {
             try
             {
                 if (string.IsNullOrEmpty(model.Name))
@@ -87,7 +95,6 @@ namespace Coddinggurrus.Api.Controllers.Admin
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> Delete(long Id)
         {
-            BasicResponse basicResponse = new BasicResponse();
             try
             {
                 await _menuService.DeleteMenu(Id);

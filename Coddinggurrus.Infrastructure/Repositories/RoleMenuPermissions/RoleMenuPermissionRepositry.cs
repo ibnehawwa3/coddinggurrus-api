@@ -27,23 +27,38 @@ namespace Coddinggurrus.Infrastructure.Repositories.RoleMenuPermissions
         /// <param name="take"></param>
         /// <param name="searchText"></param>
         /// <returns></returns>
-        public async Task<IEnumerable<RoleMenuPermission>> GetRoleMenuPermission(ListingParameter listingParameter)
+        public async Task<IEnumerable<RoleMenuPermission>> GetRoleMenuPermission(string RoleId)
         {
-            //var countSql = @$"SELECT COUNT(*) 
-            //         FROM dbo.RoleMenuPermissions a with (nolock) 
-            //         WHERE a.Name like '%{listingParameter.TextToSearch}%'";
-            string sql;
-           
-                sql = @$"SELECT a.Id, a.RoleId,a.MenuId, a.[Add],a.[Update], a.[Delete],a.[Access]
-             FROM dbo.RoleMenuPermissions a with (nolock)                       
-             ORDER BY a.CreatedBy desc                        
-             OFFSET @skip ROWS FETCH NEXT @take ROWS ONLY";
-           
             using SqlConnection connection = new(CoddingGurrusDbConnectionString);
-            var grid = await connection.QueryMultipleAsync(sql, new { listingParameter.TextToSearch, listingParameter.Skip, listingParameter.Take });
+            var countSql = @$"SELECT COUNT(*) 
+                     FROM dbo.RoleMenuPermissions a with (nolock) 
+                     WHERE a.RoleId = {int.Parse(RoleId)}";
+
+            var rolegrid = await connection.QueryMultipleAsync(countSql, new { RoleId });
+            var rolexist = rolegrid.Read<int>().FirstOrDefault();
+
+            string sql=string.Empty;
+
+            if (rolexist > 0)
+            {
+                sql = @$"SELECT a.Id,m.Name as MenuName,m.Id as MenuId, ISNULL(a.[Add],0) as [Add],ISNULL(a.[Update],0) 
+              as [Update],ISNULL(a.[Delete],0) as [Delete],ISNULL(a.[Access],0) as [Access]
+             FROM dbo.RoleMenuPermissions a with (nolock) 
+			 right join dbo.Menus m on m.Id=a.MenuId
+             where a.RoleId={int.Parse(RoleId)}
+             ORDER BY a.CreatedBy desc ";
+
+            }
+            else
+            {
+                sql = $@" SELECT R.Id,m.Name as MenuName,m.Id as MenuId, 0 as [Add],0 as [Update],
+			 0 as [Delete],0 as [Access] FROM RoleMenuPermissions R RIGHT JOIN
+			 Menus M ON M.Id=R.MenuId";
+            }
+            var grid = await connection.QueryMultipleAsync(sql, new { RoleId });
             var articles = grid.Read<RoleMenuPermissionWithCount>().ToList();
-            var TotalCount = grid.Read<int>().FirstOrDefault();
-            articles.ForEach(article => article.TotalCount = TotalCount);
+            //var TotalCount = grid.Read<int>().FirstOrDefault();
+            //articles.ForEach(article => article.TotalCount = TotalCount);
 
             grid.Dispose();
             return articles;
@@ -53,18 +68,32 @@ namespace Coddinggurrus.Infrastructure.Repositories.RoleMenuPermissions
         /// </summary>
         /// <param name="course"></param>
         /// <returns></returns>
-        public async Task<int> AddRoleMenuPermission(RoleMenuPermission roleMenuPermission)
+        public async Task<int> AddRoleMenuPermission(List<RoleMenuPermission> roleMenuPermissions)
         {
-            string sql = @"
-            INSERT INTO dbo.RoleMenuPermissions (a.RoleId,a.MenuId, a.[Add],a.[Update], a.[Delete],a.[Access])
-            VALUES (@RoleId,@MenuId, @Add,@Update,@Delete,@Access);
+            await DeleteRoleMenuPermissions(roleMenuPermissions.FirstOrDefault().RoleId);
+
+            int courseId = 0;
+            foreach (var permission in roleMenuPermissions)
+            {
+                string sql = @"
+            INSERT INTO dbo.RoleMenuPermissions (RoleId, MenuId, [Add], [Update], [Delete], [Access])
+            VALUES (@RoleId, @MenuId, @Add, @Update, @Delete, @Access);
             SELECT SCOPE_IDENTITY();";
 
-            using SqlConnection connection = new(CoddingGurrusDbConnectionString);
-            int courseId = await connection.ExecuteScalarAsync<int>(sql, roleMenuPermission);
+                using SqlConnection connection = new(CoddingGurrusDbConnectionString);
+                courseId = await connection.ExecuteScalarAsync<int>(sql, permission);
+            }
 
             return courseId;
         }
+
+        private async Task DeleteRoleMenuPermissions(long roleId)
+        {
+            string deleteSql = "DELETE FROM dbo.RoleMenuPermissions WHERE RoleId = @RoleId;";
+            using SqlConnection connection = new(CoddingGurrusDbConnectionString);
+            await connection.ExecuteAsync(deleteSql, new { RoleId = roleId });
+        }
+
 
         /// <summary>
         /// Update an course against its reference

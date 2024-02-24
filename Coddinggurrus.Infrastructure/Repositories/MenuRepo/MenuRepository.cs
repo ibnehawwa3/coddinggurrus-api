@@ -1,8 +1,10 @@
 ﻿using Coddinggurrus.Core.Entities;
+using Coddinggurrus.Core.Entities.User;
 using Coddinggurrus.Core.Helper;
 using Coddinggurrus.Core.Interfaces.Repositories.MenuRepo;
 using Dapper;
 using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Configuration;
 
 
@@ -54,6 +56,20 @@ namespace Coddinggurrus.Infrastructure.Repositories.MenuRepo
             grid.Dispose();
             return articles;
         }
+
+        public async Task<Menu> GetMenuById(int id)
+        {
+            var sql = @$"SELECT a.Id, a.Name,Url, a.MenuOrder,a.MenuImage, a.IsShow
+             FROM dbo.Menus a with (nolock)
+             WHERE a.Id={id}";
+
+            using SqlConnection connection = new(CoddingGurrusDbConnectionString);
+            var grid = await connection.QueryMultipleAsync(sql, new { id });
+            var articles = grid.Read<Menu>().FirstOrDefault();
+
+            grid.Dispose();
+            return articles;
+        }
         /// <summary>
         /// 
         /// </summary>
@@ -93,16 +109,28 @@ namespace Coddinggurrus.Infrastructure.Repositories.MenuRepo
         /// <returns></returns>
         public async Task<bool> UpdateMenu(Menu model)
         {
-            var sql = @"UPDATE Menus 
+            var sqlQuery = @"UPDATE Menus 
                  SET Name = @Name,
                      Url = @Url,
+                     Archived=@Archived,
                      MenuOrder = @MenuOrder,
+                     ParentId=@ParentId,
                      MenuImage = @MenuImage,
-                     IsShow = @IsShow,
+                     IsShow = @IsShow
                  WHERE Id = @Id";
 
             using SqlConnection connection = new(CoddingGurrusDbConnectionString);
-            var result = await connection.ExecuteAsync(sql, new { model.Name, model.Url,model.Archived,model.ParentId,model.MenuImage,model.MenuOrder, model.Id });
+            int result = connection.Execute(sqlQuery, new
+            {
+                Name = model.Name,
+                Url = model.Url,
+                Archived = model.Archived,
+                MenuOrder = model.MenuOrder,
+                ParentId = model.ParentId,
+                MenuImage = model.MenuImage,
+                IsShow = model.IsShow,
+                Id = model.Id
+            });
             return result > 0;
         }
         /// <summary>

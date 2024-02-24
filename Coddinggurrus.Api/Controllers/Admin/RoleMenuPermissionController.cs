@@ -5,6 +5,7 @@ using Coddinggurrus.Core.Helper;
 using Coddinggurrus.Core.Interfaces.Services.RoleMenuPermissions;
 using Coddinggurrus.Infrastructure.APIModels;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 
 namespace Coddinggurrus.Api.Controllers.Admin
@@ -24,12 +25,12 @@ namespace Coddinggurrus.Api.Controllers.Admin
 
         [HttpGet("list")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetList([FromQuery] ListingParameter listingParameter)
+        public async Task<IActionResult> GetList([FromQuery] string RoleId)
         {
             try
             {
-                var users = await _roleMenuPermissionService.GetRoleMenuPermission(listingParameter);
-                basicResponse.Data = users;
+                var roleMenuPermissions = await _roleMenuPermissionService.GetRoleMenuPermission(RoleId);
+                basicResponse.Data = JsonConvert.SerializeObject(roleMenuPermissions);
             }
             catch (Exception e)
             {
@@ -39,12 +40,12 @@ namespace Coddinggurrus.Api.Controllers.Admin
         }
         [HttpPost("add")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> Add([FromBody] RoleMenuPermissionModel model)
+        public async Task<IActionResult> Add([FromBody] List<RoleMenuPermissionModel> model)
         {
             try
             {
-                var users = await _roleMenuPermissionService.AddRoleMenuPermission(Mapper.Map<RoleMenuPermission>(model));
-                basicResponse.Data = users;
+                var roleMenuPermissions = await _roleMenuPermissionService.AddRoleMenuPermission(Mapper.Map<List<RoleMenuPermission>>(model));
+                basicResponse.Data = roleMenuPermissions;
             }
             catch (Exception e)
             {
