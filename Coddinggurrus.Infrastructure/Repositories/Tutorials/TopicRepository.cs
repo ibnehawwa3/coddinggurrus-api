@@ -21,8 +21,8 @@ namespace Coddinggurrus.Infrastructure.Repositories.Tutorials
         public async Task<int> AddTopic(Topic topic)
         {
             string sql = @"
-            INSERT INTO dbo.Topic (Title, Description,CourseId)
-            VALUES (@Title, @Description,@CourseId);
+            INSERT INTO dbo.Topic (Title, Description,CourseId,IsActive)
+            VALUES (@Title, @Description,@CourseId,0);
             SELECT SCOPE_IDENTITY();";
 
             using SqlConnection connection = new(CoddingGurrusDbConnectionString);
@@ -40,7 +40,7 @@ namespace Coddinggurrus.Infrastructure.Repositories.Tutorials
         {
             var sql = @"
             UPDATE Topic
-            SET IsActive = 0
+            SET IsActive = 1
             WHERE Id = @Id";
             using SqlConnection connection = new(CoddingGurrusDbConnectionString);
             var result = await connection.ExecuteAsync(sql, new { Id });
@@ -70,14 +70,15 @@ namespace Coddinggurrus.Infrastructure.Repositories.Tutorials
         {
             var countSql = @"SELECT COUNT(*) 
                      FROM dbo.Topic a with (nolock) 
-                     WHERE a.Title like @TextToSearch";
+                     WHERE a.IsActive=0 AND a.Title like @TextToSearch";
 
             string sql;
             if (string.IsNullOrEmpty(listingParameter.TextToSearch))
             {
                 sql = @"
             SELECT a.Id, a.Title, a.Description
-            FROM dbo.Topic a with (nolock)                       
+            FROM dbo.Topic a with (nolock)
+            WHERE a.IsActive=0
             ORDER BY a.CreatedBy DESC
             OFFSET @Skip ROWS FETCH NEXT @Take ROWS ONLY
             ";
@@ -87,7 +88,7 @@ namespace Coddinggurrus.Infrastructure.Repositories.Tutorials
                 sql = @"
             SELECT a.Id, a.Title, a.Description
             FROM dbo.Topic a with (nolock)
-            WHERE a.Title like @TextToSearch                        
+            WHERE a.IsActive=0 AND a.Title like @TextToSearch                        
             ORDER BY a.CreatedBy DESC
             OFFSET @Skip ROWS FETCH NEXT @Take ROWS ONLY
             ";
