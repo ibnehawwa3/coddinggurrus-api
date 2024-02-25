@@ -1,4 +1,5 @@
-﻿using Coddinggurrus.Core.Entities.User;
+﻿using Coddinggurrus.Core.Entities.Role;
+using Coddinggurrus.Core.Entities.User;
 using Coddinggurrus.Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -10,7 +11,8 @@ namespace Coddinggurrus.Api.Extensions
         public static void AddCustomIdentity(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<DatabaseContext>(options => options.UseSqlServer(configuration.GetValue<string>("ConnectionStrings:CoddingGurrusDb")));
-            services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+      
+            services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
             {
                 options.Password.RequireDigit = false;
                 options.Password.RequiredLength = 4;

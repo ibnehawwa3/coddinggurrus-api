@@ -13,6 +13,8 @@ namespace Coddinggurrus.Api.Extensions
                 cfg.AddProfile(new CourseProfile());
                 cfg.AddProfile(new UserProfile());
                 cfg.AddProfile(new TopicProfile());
+                cfg.AddProfile(new MenuProfile());
+                cfg.AddProfile(new RoleMenuPermissionProfile());
             }).CreateMapper());
         }
     }
