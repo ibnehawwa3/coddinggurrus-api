@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Coddinggurrus.Api.Models.Admin.Course;
 using Coddinggurrus.Api.Models.Admin.Generic;
 using Coddinggurrus.Api.Models.Admin.Tutorials;
 using Coddinggurrus.Core.Entities.Tutorials;

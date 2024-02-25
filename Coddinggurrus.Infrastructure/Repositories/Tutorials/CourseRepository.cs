@@ -19,37 +19,51 @@ namespace Coddinggurrus.Infrastructure.Repositories.Tutorials
         /// <param name="take"></param>
         /// <param name="searchText"></param>
         /// <returns></returns>
+        /// 
         public async Task<IEnumerable<Course>> GetCourses(ListingParameter listingParameter)
         {
-            var countSql = @$"SELECT COUNT(*) 
+            var countSql = @"SELECT COUNT(*) 
                      FROM dbo.Course a with (nolock) 
-                     WHERE a.Title like '%{listingParameter.TextToSearch}%'";
+                     WHERE a.IsActive=0 AND a.Title like @TextToSearch";
+
             string sql;
             if (string.IsNullOrEmpty(listingParameter.TextToSearch))
             {
-                sql = @$"SELECT a.Id, a.Title, a.Description
-             FROM dbo.Course a with (nolock)                       
-             ORDER BY a.CreatedBy desc                        
-             OFFSET @skip ROWS FETCH NEXT @take ROWS ONLY
-             {countSql}";
+                sql = @"
+            SELECT a.Id, a.Title, a.Description
+            FROM dbo.Course a with (nolock)
+            WHERE a.IsActive=0
+            ORDER BY a.CreatedBy DESC
+            OFFSET @Skip ROWS FETCH NEXT @Take ROWS ONLY
+            ";
             }
             else
             {
-                sql = @$"SELECT a.Id, a.Title, a.Description
-             FROM dbo.Course a with (nolock)
-             WHERE a.Title like '%{listingParameter.TextToSearch}%'                        
-             ORDER BY a.CreatedBy desc
-             OFFSET @skip ROWS FETCH NEXT @take ROWS ONLY
-             {countSql}";
+                sql = @"
+            SELECT a.Id, a.Title, a.Description
+            FROM dbo.Course a with (nolock)
+            WHERE a.IsActive=0 AND a.Title like @TextToSearch                        
+            ORDER BY a.CreatedBy DESC
+            OFFSET @Skip ROWS FETCH NEXT @Take ROWS ONLY
+            ";
             }
-            using SqlConnection connection = new(CoddingGurrusDbConnectionString);
-            var grid = await connection.QueryMultipleAsync(sql, new { listingParameter.TextToSearch, listingParameter.Skip, listingParameter.Take });
-            var courses = grid.Read<CourseWithCount>().ToList();
-            var TotalRecords = grid.Read<int>().FirstOrDefault();
-            courses.ForEach(article => article.TotalRecords = TotalRecords);
 
-            grid.Dispose();
-            return courses;
+            using (SqlConnection connection = new SqlConnection(CoddingGurrusDbConnectionString))
+            {
+                var parameters = new
+                {
+                    TextToSearch = $"%{listingParameter.TextToSearch}%", // Applying wildcard here
+                    Skip = (listingParameter.Skip - 1) * listingParameter.Take, // Calculate skip based on Skip and Take
+                    Take = listingParameter.Take // Use Take directly
+                };
+
+                var grid = await connection.QueryMultipleAsync(sql + countSql, parameters);
+                var courses = grid.Read<CourseWithCount>().ToList();
+                var totalRecords = grid.Read<int>().FirstOrDefault();
+
+                courses.ForEach(course => course.TotalRecords = totalRecords);
+                return courses;
+            }
         }
         /// <summary>
         /// 
@@ -59,8 +73,8 @@ namespace Coddinggurrus.Infrastructure.Repositories.Tutorials
         public async Task<int> AddCourse(Course course)
         {
             string sql = @"
-            INSERT INTO dbo.Course (Title, Description)
-            VALUES (@Title, @Description);
+            INSERT INTO dbo.Course (Title, Description,IsActive)
+            VALUES (@Title, @Description,0);
             SELECT SCOPE_IDENTITY();";
 
             using SqlConnection connection = new(CoddingGurrusDbConnectionString);

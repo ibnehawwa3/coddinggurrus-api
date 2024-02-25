@@ -1,11 +1,9 @@
 ﻿using Coddinggurrus.Core.Helper;
 using Coddinggurrus.Core.Interfaces.Services.User;
-using Coddinggurrus.Core.Models.User;
 using Coddinggurrus.Infrastructure.APIModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using System.Text.Json.Serialization;
 
 namespace Coddinggurrus.Api.Controllers.Admin
 {

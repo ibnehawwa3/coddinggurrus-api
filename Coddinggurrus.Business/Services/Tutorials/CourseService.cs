@@ -23,8 +23,6 @@ namespace Coddinggurrus.Business.Services.Tutorials
         /// <returns></returns>
         public async Task<IEnumerable<Course>> GetCourses(ListingParameter listingParameter)
         {
-            //var skip = (listingParameter.Skip * listingParameter.Take) - listingParameter.Take;
-            //return await _courseRepository.GetCourses(skip, pageSize, searchText);
             return await _courseRepository.GetCourses(listingParameter);
         }
         /// <summary>
