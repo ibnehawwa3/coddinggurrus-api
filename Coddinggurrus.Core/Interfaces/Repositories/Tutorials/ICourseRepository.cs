@@ -1,5 +1,6 @@
 ﻿using Coddinggurrus.Core.Entities.Tutorials;
 using Coddinggurrus.Core.Helper;
+using Coddinggurrus.Core.Models.Generic;
 
 namespace Coddinggurrus.Core.Interfaces.Repositories.Tutorials
 {
@@ -11,5 +12,7 @@ namespace Coddinggurrus.Core.Interfaces.Repositories.Tutorials
         Task<bool> UpdateCourse(Course model);
         Task<bool> DeleteCourse(long Id);
         Task<Course> GetCourseById(long id);
+        Task<IEnumerable<DropdownListItems>> GetAllCoursesForDropdown();
+
     }
 }

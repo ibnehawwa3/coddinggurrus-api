@@ -1,6 +1,7 @@
 ﻿using Coddinggurrus.Core.Entities.Tutorials;
 using Coddinggurrus.Core.Helper;
 using Coddinggurrus.Core.Interfaces.Repositories.Tutorials;
+using Coddinggurrus.Core.Models.Generic;
 using Dapper;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
@@ -141,6 +142,25 @@ namespace Coddinggurrus.Infrastructure.Repositories.Tutorials
             using SqlConnection connection = new(CoddingGurrusDbConnectionString);
             var course = await connection.QuerySingleOrDefaultAsync<Course>(sql, new { Id = id });
             return course;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public async Task<IEnumerable<DropdownListItems>> GetAllCoursesForDropdown()
+        {
+            var sql = @"
+        SELECT Id, Title AS Name
+        FROM dbo.Course with (nolock)
+        WHERE IsActive = 0
+        ORDER BY CreatedBy DESC
+        ";
+
+            using (SqlConnection connection = new SqlConnection(CoddingGurrusDbConnectionString))
+            {
+                var items = await connection.QueryAsync<DropdownListItems>(sql);
+                return items;
+            }
         }
 
     }

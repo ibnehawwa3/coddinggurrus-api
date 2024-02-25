@@ -3,6 +3,7 @@ using Coddinggurrus.Core.Entities.Tutorials;
 using Coddinggurrus.Core.Helper;
 using Coddinggurrus.Core.Interfaces.Repositories.Tutorials;
 using Coddinggurrus.Core.Interfaces.Services.Tutorials;
+using Coddinggurrus.Core.Models.Generic;
 using Microsoft.Extensions.Configuration;
 
 namespace Coddinggurrus.Business.Services.Tutorials
@@ -62,10 +63,22 @@ namespace Coddinggurrus.Business.Services.Tutorials
         {
             return await _courseRepository.DeleteCourse(Id);
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<Course> GetCourseById(long id)
         {
             return await _courseRepository.GetCourseById(id);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public async Task<IEnumerable<DropdownListItems>> GetAllCoursesForDropdown()
+        {
+            return await _courseRepository.GetAllCoursesForDropdown();
         }
     }
 }

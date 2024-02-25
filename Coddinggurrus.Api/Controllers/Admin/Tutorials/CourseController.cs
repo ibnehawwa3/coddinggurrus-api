@@ -116,5 +116,23 @@ namespace Coddinggurrus.Api.Controllers.Admin.Tutorials
             return Ok(basicResponse);
         }
 
+        #region Course dropdown list
+        [HttpGet("course-dropdown-list")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetAllCoursesForDropdown()
+        {
+            BasicResponse basicResponse = new BasicResponse();
+            try
+            {
+                var courses = await _courseService.GetAllCoursesForDropdown();
+                basicResponse.Data = JsonConvert.SerializeObject(courses);
+            }
+            catch (Exception e)
+            {
+                basicResponse.ErrorMessage = e.Message;
+            }
+            return Ok(basicResponse);
+        }
+        #endregion
     }
 }
