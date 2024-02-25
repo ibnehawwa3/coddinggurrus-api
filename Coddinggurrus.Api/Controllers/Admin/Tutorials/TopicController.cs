@@ -82,7 +82,7 @@ namespace Coddinggurrus.Api.Controllers.Admin.Tutorials
 
         [HttpPost("update")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> UpdateCourse(TopicModel model)
+        public async Task<IActionResult> Update(TopicModel model)
         {
             BasicResponse basicResponse = new BasicResponse();
             try

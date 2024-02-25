@@ -68,36 +68,49 @@ namespace Coddinggurrus.Infrastructure.Repositories.Tutorials
         /// <exception cref="NotImplementedException"></exception>
         public async Task<IEnumerable<Topic>> GetTopics(ListingParameter listingParameter)
         {
-            var countSql = @$"SELECT COUNT(*) 
+            var countSql = @"SELECT COUNT(*) 
                      FROM dbo.Topic a with (nolock) 
-                     WHERE a.Title like '%{listingParameter.TextToSearch}%'";
+                     WHERE a.Title like @TextToSearch";
+
             string sql;
             if (string.IsNullOrEmpty(listingParameter.TextToSearch))
             {
-                sql = @$"SELECT a.Id, a.Title, a.Description
-             FROM dbo.Topic a with (nolock)                       
-             ORDER BY a.CreatedBy desc                        
-             OFFSET @skip ROWS FETCH NEXT @take ROWS ONLY
-             {countSql}";
+                sql = @"
+            SELECT a.Id, a.Title, a.Description
+            FROM dbo.Topic a with (nolock)                       
+            ORDER BY a.CreatedBy DESC
+            OFFSET @Skip ROWS FETCH NEXT @Take ROWS ONLY
+            ";
             }
             else
             {
-                sql = @$"SELECT a.Id, a.Title, a.Description
-             FROM dbo.Topic a with (nolock)
-             WHERE a.Title like '%{listingParameter.TextToSearch}%'                        
-             ORDER BY a.CreatedBy desc
-             OFFSET @skip ROWS FETCH NEXT @take ROWS ONLY
-             {countSql}";
+                sql = @"
+            SELECT a.Id, a.Title, a.Description
+            FROM dbo.Topic a with (nolock)
+            WHERE a.Title like @TextToSearch                        
+            ORDER BY a.CreatedBy DESC
+            OFFSET @Skip ROWS FETCH NEXT @Take ROWS ONLY
+            ";
             }
-            using SqlConnection connection = new(CoddingGurrusDbConnectionString);
-            var grid = await connection.QueryMultipleAsync(sql, new { listingParameter.TextToSearch, listingParameter.Skip, listingParameter.Take });
-            var topics = grid.Read<TopicCount>().ToList();
-            var TotalRecords = grid.Read<int>().FirstOrDefault();
-            topics.ForEach(article => article.TotalRecords = TotalRecords);
 
-            grid.Dispose();
-            return topics;
+            using (SqlConnection connection = new SqlConnection(CoddingGurrusDbConnectionString))
+            {
+                var parameters = new
+                {
+                    TextToSearch = $"%{listingParameter.TextToSearch}%", // Applying wildcard here
+                    Skip = (listingParameter.Skip - 1) * listingParameter.Take, // Calculate skip based on Skip and Take
+                    Take = listingParameter.Take // Use Take directly
+                };
+
+                var grid = await connection.QueryMultipleAsync(sql + countSql, parameters);
+                var topics = grid.Read<TopicCount>().ToList();
+                var totalRecords = grid.Read<int>().FirstOrDefault();
+
+                topics.ForEach(topic => topic.TotalRecords = totalRecords);
+                return topics;
+            }
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -130,7 +143,7 @@ namespace Coddinggurrus.Infrastructure.Repositories.Tutorials
                  WHERE Id = @Id";
 
             using SqlConnection connection = new(CoddingGurrusDbConnectionString);
-            var result = await connection.ExecuteAsync(sql, new { model.Title, model.Description, model.Id });
+            var result = await connection.ExecuteAsync(sql, new { model.Title, model.Description, model.Id, model.CourseId });
             return result > 0;
         }
     }
