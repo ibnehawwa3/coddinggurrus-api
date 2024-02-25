@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
-using Coddinggurrus.Core.Entities;
+using Coddinggurrus.Core.Entities.Tutorials;
+using Coddinggurrus.Core.Helper;
 using Coddinggurrus.Core.Interfaces.Repositories.Tutorials;
 using Coddinggurrus.Core.Interfaces.Services.Tutorials;
+using Coddinggurrus.Core.Models.Generic;
 using Microsoft.Extensions.Configuration;
 
 namespace Coddinggurrus.Business.Services.Tutorials
@@ -20,10 +22,9 @@ namespace Coddinggurrus.Business.Services.Tutorials
         /// <param name="pageSize"></param>
         /// <param name="searchText"></param>
         /// <returns></returns>
-        public async Task<IEnumerable<Course>> GetCourses(int pageNo, int pageSize, string searchText = "")
+        public async Task<IEnumerable<Course>> GetCourses(ListingParameter listingParameter)
         {
-            var skip = (pageNo * pageSize) - pageSize;
-            return await _courseRepository.GetCourses(skip, pageSize, searchText);
+            return await _courseRepository.GetCourses(listingParameter);
         }
         /// <summary>
         /// 
@@ -61,6 +62,23 @@ namespace Coddinggurrus.Business.Services.Tutorials
         public async Task<bool> DeleteCourse(long Id)
         {
             return await _courseRepository.DeleteCourse(Id);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<Course> GetCourseById(long id)
+        {
+            return await _courseRepository.GetCourseById(id);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public async Task<IEnumerable<DropdownListItems>> GetAllCoursesForDropdown()
+        {
+            return await _courseRepository.GetAllCoursesForDropdown();
         }
     }
 }

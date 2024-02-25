@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Coddinggurrus.Api.Mappings;
+using Coddinggurrus.Api.Mappings.Tutorials;
 
 namespace Coddinggurrus.Api.Extensions
 {
@@ -11,6 +12,7 @@ namespace Coddinggurrus.Api.Extensions
             {
                 cfg.AddProfile(new CourseProfile());
                 cfg.AddProfile(new UserProfile());
+                cfg.AddProfile(new TopicProfile());
                 cfg.AddProfile(new MenuProfile());
                 cfg.AddProfile(new RoleMenuPermissionProfile());
             }).CreateMapper());

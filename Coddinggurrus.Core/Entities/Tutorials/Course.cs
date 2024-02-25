@@ -1,5 +1,4 @@
-﻿
-namespace Coddinggurrus.Core.Entities
+﻿namespace Coddinggurrus.Core.Entities.Tutorials
 {
     public class Course : Entity<int>
     {
@@ -8,7 +7,6 @@ namespace Coddinggurrus.Core.Entities
     }
     public class CourseWithCount : Course
     {
-        public int TotalCount { get; set; }
-
+        public int TotalRecords { get; set; }
     }
 }

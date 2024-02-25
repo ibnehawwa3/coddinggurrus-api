@@ -1,28 +1,31 @@
 ﻿using AutoMapper;
-using Coddinggurrus.Api.Models.Admin.Course;
-using Coddinggurrus.Core.Entities;
+using Coddinggurrus.Api.Models.Admin.Generic;
+using Coddinggurrus.Api.Models.Admin.Tutorials;
+using Coddinggurrus.Core.Entities.Tutorials;
+using Coddinggurrus.Core.Helper;
 using Coddinggurrus.Core.Interfaces.Services.Tutorials;
 using Coddinggurrus.Infrastructure.APIModels;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
-namespace Coddinggurrus.Api.Controllers.Admin
+namespace Coddinggurrus.Api.Controllers.Admin.Tutorials
 {
-    public class CourseController : AdminController
+    public class TopicController : AdminController
     {
-        private readonly ICourseService _courseService;
-        public CourseController(ICourseService courseService, IMapper mapper, IConfiguration config) : base(mapper, config)
+        private readonly ITopicService _topicService;
+        public TopicController(ITopicService topicService, IMapper mapper, IConfiguration config) : base(mapper, config)
         {
-            _courseService= courseService;
+            _topicService = topicService;
         }
         [HttpGet("list")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetList(int pageNo, int pageSize, string searchText = "")
+        public async Task<IActionResult> GetList([FromQuery] ListingParameter listingParameter)
         {
             BasicResponse basicResponse = new BasicResponse();
             try
             {
-                var users = await _courseService.GetCourses(pageNo, pageSize, searchText);
-                basicResponse.Data = users;
+                var courses = await _topicService.GetTopics(listingParameter);
+                basicResponse.Data = JsonConvert.SerializeObject(courses);
             }
             catch (Exception e)
             {
@@ -30,9 +33,27 @@ namespace Coddinggurrus.Api.Controllers.Admin
             }
             return Ok(basicResponse);
         }
+
+        [HttpPost("get-topic")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetCourseById([FromBody] IntIdRequestModel intIdRequestModel)
+        {
+            BasicResponse basicResponse = new BasicResponse();
+            try
+            {
+                var course = await _topicService.GetTopicById(intIdRequestModel.Id);
+                basicResponse.Data = JsonConvert.SerializeObject(course);
+            }
+            catch (Exception e)
+            {
+                basicResponse.ErrorMessage = e.Message;
+            }
+            return Ok(basicResponse);
+        }
+
         [HttpPost("add")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> Add(CourseModel model)
+        public async Task<IActionResult> Add(TopicModel model)
         {
             BasicResponse basicResponse = new BasicResponse();
             try
@@ -40,10 +61,15 @@ namespace Coddinggurrus.Api.Controllers.Admin
                 if (string.IsNullOrEmpty(model.Title))
                     return BadRequest($"Missing required fields.");
 
-                var titleExists = await _courseService.TitleExists(model.Title);
-                if (titleExists) return BadRequest($"Course {model.Title} already exists.");
+                var titleExists = await _topicService.TitleExists(model.Title);
+                if (titleExists)
+                {
+                    basicResponse.ErrorMessage = $"Topic {model.Title} already exists.";
+                    basicResponse.Success = false;
+                    return Conflict(basicResponse);
+                }
 
-                var users = await _courseService.AddCourse(Mapper.Map<Course>(model));
+                var users = await _topicService.AddTopic(Mapper.Map<Topic>(model));
                 basicResponse.Data = users;
             }
             catch (Exception e)
@@ -55,7 +81,7 @@ namespace Coddinggurrus.Api.Controllers.Admin
 
         [HttpPost("update")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> UpdateCourse(CourseModel model)
+        public async Task<IActionResult> Update(TopicModel model)
         {
             BasicResponse basicResponse = new BasicResponse();
             try
@@ -63,7 +89,7 @@ namespace Coddinggurrus.Api.Controllers.Admin
                 if (string.IsNullOrEmpty(model.Title))
                     return BadRequest($"Missing required fields.");
 
-                await _courseService.UpdateCourse(Mapper.Map<Course>(model));
+                await _topicService.UpdateTopic(Mapper.Map<Topic>(model));
                 basicResponse.Data = NoContent();
             }
             catch (Exception e)
@@ -80,7 +106,7 @@ namespace Coddinggurrus.Api.Controllers.Admin
             BasicResponse basicResponse = new BasicResponse();
             try
             {
-                await _courseService.DeleteCourse(Id);
+                await _topicService.DeleteTopic(Id);
                 basicResponse.Data = NoContent();
             }
             catch (Exception e)
@@ -89,6 +115,5 @@ namespace Coddinggurrus.Api.Controllers.Admin
             }
             return Ok(basicResponse);
         }
-
     }
 }

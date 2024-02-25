@@ -27,11 +27,14 @@ namespace Coddinggurrus.Api.Extensions
                 .AddScoped<ICourseService, CourseService>()
                 .AddScoped<IRoleMenuPermissionService, RoleMenuPermissionService>()
                 .AddScoped<IMenuService, MenuService>()
+                .AddScoped<ITopicService, TopicService>()
+
                 .AddScoped<IUserRepository, UserRepository>()
                 .AddScoped<IUserProfileRepository, UserProfileRepository>()
                 .AddScoped<ICourseRepository, CourseRepository>()
                 .AddScoped<IMenuRepository, MenuRepository>()
                 .AddScoped<IRoleMenuPermissionRepositry, RoleMenuPermissionRepositry>()
+                .AddScoped<ITopicRepository, TopicRepository>()
                 .AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
         }
