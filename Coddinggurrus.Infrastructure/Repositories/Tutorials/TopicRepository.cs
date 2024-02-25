@@ -54,7 +54,7 @@ namespace Coddinggurrus.Infrastructure.Repositories.Tutorials
         /// <exception cref="NotImplementedException"></exception>
         public async Task<Topic> GetTopicById(long id)
         {
-            var sql = @"SELECT Id, Title, Description FROM Topic WHERE Id = @Id";
+            var sql = @"SELECT Id, Title, Description, CourseId FROM Topic WHERE Id = @Id";
 
             using SqlConnection connection = new(CoddingGurrusDbConnectionString);
             var topic = await connection.QuerySingleOrDefaultAsync<Topic>(sql, new { Id = id });
