@@ -4,6 +4,7 @@ using Coddinggurrus.Core.Entities.Tutorials;
 using Coddinggurrus.Core.Helper;
 using Coddinggurrus.Core.Interfaces.Repositories.Tutorials;
 using Coddinggurrus.Core.Interfaces.Services.Tutorials;
+using Coddinggurrus.Core.Models.Generic;
 using Microsoft.Extensions.Configuration;
 
 namespace Coddinggurrus.Business.Services.Tutorials
@@ -51,6 +52,17 @@ namespace Coddinggurrus.Business.Services.Tutorials
         {
             return await _topicRepository.GetTopics(listingParameter);
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="courseId"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public async Task<IEnumerable<DropdownListItems>> GetTopicsByCourseId(long courseId)
+        {
+            return await _topicRepository.GetTopicsByCourseId(courseId);
+        }
+
         /// <summary>
         /// 
         /// </summary>

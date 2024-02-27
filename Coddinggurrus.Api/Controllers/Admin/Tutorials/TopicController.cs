@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Coddinggurrus.Api.Models.Admin.Generic;
 using Coddinggurrus.Api.Models.Admin.Tutorials;
+using Coddinggurrus.Business.Services.Tutorials;
 using Coddinggurrus.Core.Entities.Tutorials;
 using Coddinggurrus.Core.Helper;
 using Coddinggurrus.Core.Interfaces.Services.Tutorials;
@@ -115,5 +116,23 @@ namespace Coddinggurrus.Api.Controllers.Admin.Tutorials
             }
             return Ok(basicResponse);
         }
+        #region Course dropdown list
+        [HttpGet("topic-by-course-dropdown-list")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetAllCoursesForDropdown(long courseId)
+        {
+            BasicResponse basicResponse = new BasicResponse();
+            try
+            {
+                var topics = await _topicService.GetTopicsByCourseId(courseId);
+                basicResponse.Data = JsonConvert.SerializeObject(topics);
+            }
+            catch (Exception e)
+            {
+                basicResponse.ErrorMessage = e.Message;
+            }
+            return Ok(basicResponse);
+        }
+        #endregion
     }
 }

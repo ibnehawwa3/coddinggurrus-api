@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Coddinggurrus.Core.Entities.Tutorials;
 using Coddinggurrus.Core.Helper;
+using Coddinggurrus.Core.Interfaces.Repositories.Tutorials;
 using Coddinggurrus.Core.Interfaces.Services.Tutorials;
 using Microsoft.Extensions.Configuration;
 
@@ -8,38 +9,41 @@ namespace Coddinggurrus.Business.Services.Tutorials
 {
     public class ContentService : BaseService, IContentService
     {
-        public ContentService(IConfiguration config, IMapper mapper) : base(config, mapper)
+        private readonly IContentRepository _contentRepository;
+        public ContentService(IContentRepository contentRepository, IConfiguration config, IMapper mapper) : base(config, mapper)
         {
+            _contentRepository = contentRepository;
         }
 
-        public Task<int> AddContent(Content content)
+        public async Task<int> AddContent(Content content)
         {
-            throw new NotImplementedException();
+            return await _contentRepository.AddContent(content);
         }
 
-        public Task<bool> DeleteContent(long Id)
+        public async Task<bool> DeleteContent(long Id)
         {
-            throw new NotImplementedException();
+            return await _contentRepository.DeleteContent(Id);
         }
 
-        public Task<Topic> GetContentById(long id)
+        public async Task<Content> GetContentById(long id)
         {
-            throw new NotImplementedException();
+            return await _contentRepository.GetContentById(id);
         }
 
-        public Task<IEnumerable<Content>> GetContents(ListingParameter listingParameter)
+        public async Task<IEnumerable<Content>> GetContents(ListingParameter listingParameter)
         {
-            throw new NotImplementedException();
+            return await _contentRepository.GetContents(listingParameter);
         }
 
-        public Task<bool> TitleExists(string title)
+        public async Task<bool> TitleExists(string title)
         {
-            throw new NotImplementedException();
+            var exists = await _contentRepository.TitleExists(title);
+            return exists;
         }
 
-        public Task<bool> UpdateContent(Content model)
+        public async Task<bool> UpdateContent(Content model)
         {
-            throw new NotImplementedException();
+            return await _contentRepository.UpdateContent(model);
         }
     }
 }

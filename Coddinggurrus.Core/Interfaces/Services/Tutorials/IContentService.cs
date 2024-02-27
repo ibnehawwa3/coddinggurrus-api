@@ -9,6 +9,6 @@ namespace Coddinggurrus.Core.Interfaces.Services.Tutorials
         Task<bool> TitleExists(string title);
         Task<bool> UpdateContent(Content model);
         Task<bool> DeleteContent(long Id);
-        Task<Topic> GetContentById(long id);
+        Task<Content> GetContentById(long id);
     }
 }
