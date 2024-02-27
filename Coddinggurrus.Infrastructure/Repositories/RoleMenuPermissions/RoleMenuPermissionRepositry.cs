@@ -32,7 +32,7 @@ namespace Coddinggurrus.Infrastructure.Repositories.RoleMenuPermissions
             using SqlConnection connection = new(CoddingGurrusDbConnectionString);
             var countSql = @$"SELECT COUNT(*) 
                      FROM dbo.RoleMenuPermissions a with (nolock) 
-                     WHERE a.RoleId = {int.Parse(RoleId)}";
+                     WHERE a.RoleId = '{RoleId}'";
 
             var rolegrid = await connection.QueryMultipleAsync(countSql, new { RoleId });
             var rolexist = rolegrid.Read<int>().FirstOrDefault();
@@ -45,15 +45,15 @@ namespace Coddinggurrus.Infrastructure.Repositories.RoleMenuPermissions
               as [Update],ISNULL(a.[Delete],0) as [Delete],ISNULL(a.[Access],0) as [Access]
              FROM dbo.RoleMenuPermissions a with (nolock) 
 			 right join dbo.Menus m on m.Id=a.MenuId
-             where a.RoleId={int.Parse(RoleId)}
+             where a.RoleId='{RoleId}'
              ORDER BY a.CreatedBy desc ";
 
             }
             else
             {
-                sql = $@" SELECT R.Id,m.Name as MenuName,m.Id as MenuId, 0 as [Add],0 as [Update],
-			 0 as [Delete],0 as [Access] FROM RoleMenuPermissions R RIGHT JOIN
-			 Menus M ON M.Id=R.MenuId";
+                sql = $@" SELECT m.Name as MenuName,m.Id as MenuId, 0 as [Add],0 as [Update],
+			 0 as [Delete],0 as [Access] From
+			 Menus M ";
             }
             var grid = await connection.QueryMultipleAsync(sql, new { RoleId });
             var articles = grid.Read<RoleMenuPermissionWithCount>().ToList();
@@ -87,7 +87,7 @@ namespace Coddinggurrus.Infrastructure.Repositories.RoleMenuPermissions
             return courseId;
         }
 
-        private async Task DeleteRoleMenuPermissions(long roleId)
+        private async Task DeleteRoleMenuPermissions(string roleId)
         {
             string deleteSql = "DELETE FROM dbo.RoleMenuPermissions WHERE RoleId = @RoleId;";
             using SqlConnection connection = new(CoddingGurrusDbConnectionString);
