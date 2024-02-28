@@ -22,7 +22,7 @@ namespace Coddinggurrus.Infrastructure.Repositories.Tutorials
         public async Task<int> AddTopic(Topic topic)
         {
             string sql = @"
-            INSERT INTO dbo.Topics (Title, Description,CourseId,IsActive)
+            INSERT INTO dbo.Topic (Title, Description,CourseId,IsActive)
             VALUES (@Title, @Description,@CourseId,0);
             SELECT SCOPE_IDENTITY();";
 
@@ -40,7 +40,7 @@ namespace Coddinggurrus.Infrastructure.Repositories.Tutorials
         public async Task<bool> DeleteTopic(long Id)
         {
             var sql = @"
-            UPDATE Topics
+            UPDATE Topic
             SET IsActive = 1
             WHERE Id = @Id";
             using SqlConnection connection = new(CoddingGurrusDbConnectionString);
@@ -55,7 +55,7 @@ namespace Coddinggurrus.Infrastructure.Repositories.Tutorials
         /// <exception cref="NotImplementedException"></exception>
         public async Task<Topic> GetTopicById(long id)
         {
-            var sql = @"SELECT Id, Title, Description, CourseId FROM Topics WHERE Id = @Id";
+            var sql = @"SELECT Id, Title, Description, CourseId FROM Topic WHERE Id = @Id";
 
             using SqlConnection connection = new(CoddingGurrusDbConnectionString);
             var topic = await connection.QuerySingleOrDefaultAsync<Topic>(sql, new { Id = id });
@@ -70,7 +70,7 @@ namespace Coddinggurrus.Infrastructure.Repositories.Tutorials
         public async Task<IEnumerable<TopicCount>> GetTopics(ListingParameter listingParameter)
         {
             var countSql = @"SELECT COUNT(*) 
-                     FROM dbo.Topics a with (nolock) 
+                     FROM dbo.Topic a with (nolock) 
                      WHERE a.IsActive=0 AND a.Title like @TextToSearch";
 
             string sql;
@@ -78,7 +78,7 @@ namespace Coddinggurrus.Infrastructure.Repositories.Tutorials
             {
                 sql = @"
             SELECT a.Id, a.Title, a.Description
-            FROM dbo.Topics a with (nolock)
+            FROM dbo.Topic a with (nolock)
             WHERE a.IsActive=0
             ORDER BY a.CreatedBy DESC
             OFFSET @Skip ROWS FETCH NEXT @Take ROWS ONLY
@@ -88,7 +88,7 @@ namespace Coddinggurrus.Infrastructure.Repositories.Tutorials
             {
                 sql = @"
             SELECT a.Id, a.Title, a.Description
-            FROM dbo.Topics a with (nolock)
+            FROM dbo.Topic a with (nolock)
             WHERE a.IsActive=0 AND a.Title like @TextToSearch                        
             ORDER BY a.CreatedBy DESC
             OFFSET @Skip ROWS FETCH NEXT @Take ROWS ONLY
@@ -143,7 +143,7 @@ namespace Coddinggurrus.Infrastructure.Repositories.Tutorials
         public async Task<bool> TitleExists(string title)
         {
             var sql = @"SELECT TOP 1 1
-            FROM dbo.Topics
+            FROM dbo.Topic
             WHERE Title = @title"
             ;
             using SqlConnection connection = new(CoddingGurrusDbConnectionString);
@@ -159,7 +159,7 @@ namespace Coddinggurrus.Infrastructure.Repositories.Tutorials
         /// <exception cref="NotImplementedException"></exception>
         public async Task<bool> UpdateTopic(Topic model)
         {
-            var sql = @"UPDATE Topics 
+            var sql = @"UPDATE Topic 
                  SET Title = @Title,
                      Description = @Description,
                      CourseId = @CourseId
