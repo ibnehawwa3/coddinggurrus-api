@@ -7,7 +7,7 @@ namespace Coddinggurrus.Core.Interfaces.Repositories.Tutorials
 {
     public interface ITopicRepository
     {
-        Task<IEnumerable<Topic>> GetTopics(ListingParameter listingParameter);
+        Task<IEnumerable<TopicCount>> GetTopics(ListingParameter listingParameter);
         Task<int> AddTopic(Topic course);
         Task<bool> TitleExists(string title);
         Task<bool> UpdateTopic(Topic model);
