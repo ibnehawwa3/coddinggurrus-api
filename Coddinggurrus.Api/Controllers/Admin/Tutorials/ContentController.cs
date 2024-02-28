@@ -61,7 +61,7 @@ namespace Coddinggurrus.Api.Controllers.Admin.Tutorials
                 if (string.IsNullOrEmpty(model.Title))
                     return BadRequest($"Missing required fields.");
 
-                var titleExists = await _contentService.TitleExists(model.Title);
+                var titleExists = await _contentService.TitleExists(model.Title,model.TopicId);
                 if (titleExists)
                 {
                     basicResponse.ErrorMessage = $"Topic {model.Title} already exists.";

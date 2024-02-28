@@ -117,14 +117,14 @@ namespace Coddinggurrus.Infrastructure.Repositories.Tutorials
         /// <param name="title"></param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        public async Task<bool> TitleExists(string title)
+        public async Task<bool> TitleExists(string title, long topicId)
         {
             var sql = @"SELECT TOP 1 1
-            FROM dbo.Content
-            WHERE Title = @title"
-            ;
-            using SqlConnection connection = new(CoddingGurrusDbConnectionString);
-            var results = await connection.QueryFirstOrDefaultAsync<int>(sql, new { title });
+                FROM dbo.Content
+                WHERE Title = @title AND TopicId = @topicId";
+
+            using SqlConnection connection = new SqlConnection(CoddingGurrusDbConnectionString);
+            var results = await connection.QueryFirstOrDefaultAsync<int>(sql, new { title, topicId });
 
             return results > 0;
         }

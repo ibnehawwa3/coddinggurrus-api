@@ -14,6 +14,7 @@ namespace Coddinggurrus.Api.Extensions
                 cfg.AddProfile(new UserProfile());
                 cfg.AddProfile(new TopicProfile());
                 cfg.AddProfile(new MenuProfile());
+                cfg.AddProfile(new ContentProfile());
                 cfg.AddProfile(new RoleMenuPermissionProfile());
             }).CreateMapper());
         }

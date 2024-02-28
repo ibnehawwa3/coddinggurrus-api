@@ -35,9 +35,9 @@ namespace Coddinggurrus.Business.Services.Tutorials
             return await _contentRepository.GetContents(listingParameter);
         }
 
-        public async Task<bool> TitleExists(string title)
+        public async Task<bool> TitleExists(string title, long topicId)
         {
-            var exists = await _contentRepository.TitleExists(title);
+            var exists = await _contentRepository.TitleExists(title, topicId);
             return exists;
         }
 

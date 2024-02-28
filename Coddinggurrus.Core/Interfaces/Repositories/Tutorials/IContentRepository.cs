@@ -7,7 +7,7 @@ namespace Coddinggurrus.Core.Interfaces.Repositories.Tutorials
     {
         Task<IEnumerable<Content>> GetContents(ListingParameter listingParameter);
         Task<int> AddContent(Content content);
-        Task<bool> TitleExists(string title);
+        Task<bool> TitleExists(string title, long topicId);
         Task<bool> UpdateContent(Content model);
         Task<bool> DeleteContent(long Id);
         Task<Content> GetContentById(long id);
