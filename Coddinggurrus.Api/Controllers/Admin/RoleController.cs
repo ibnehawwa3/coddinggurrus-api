@@ -1,18 +1,12 @@
 ﻿using AutoMapper;
-using Coddinggurrus.Business.Services.User;
 using Coddinggurrus.Core.Entities.Role;
-using Coddinggurrus.Core.Entities.User;
-using Coddinggurrus.Core.Helper;
-using Coddinggurrus.Core.Interfaces.Services.User;
 using Coddinggurrus.Infrastructure.APIModels;
-using Coddinggurrus.Infrastructure.APIRequestModels.User;
 using Coddinggurrus.Infrastructure.Enums;
 using Coddinggurrus.Infrastructure.Exceptions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
-using System.IdentityModel.Tokens.Jwt;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 

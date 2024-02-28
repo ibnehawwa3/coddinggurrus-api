@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Coddinggurrus.Core.Entities;
 using Coddinggurrus.Core.Entities.User;
 using Coddinggurrus.Core.Interfaces.Services.User;
 using Coddinggurrus.Infrastructure.APIModels;
@@ -12,7 +11,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
-using System.Net.Http;
 using System.Security.Claims;
 using System.Text;
 

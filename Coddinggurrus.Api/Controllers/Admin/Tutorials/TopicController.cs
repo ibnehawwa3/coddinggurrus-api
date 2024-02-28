@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Coddinggurrus.Api.Models.Admin.Generic;
 using Coddinggurrus.Api.Models.Admin.Tutorials;
-using Coddinggurrus.Business.Services.Tutorials;
 using Coddinggurrus.Core.Entities.Tutorials;
 using Coddinggurrus.Core.Helper;
 using Coddinggurrus.Core.Interfaces.Services.Tutorials;

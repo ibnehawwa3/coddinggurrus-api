@@ -1,12 +1,9 @@
 ﻿using AutoMapper;
-using Coddinggurrus.Api.Models.Admin.Course;
 using Coddinggurrus.Api.Models.Admin.Menu;
-
 using Coddinggurrus.Core.Entities;
 using Coddinggurrus.Core.Helper;
 using Coddinggurrus.Core.Interfaces.Services.Menus;
 using Coddinggurrus.Infrastructure.APIModels;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
