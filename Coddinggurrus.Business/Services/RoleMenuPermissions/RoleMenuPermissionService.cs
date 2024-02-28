@@ -1,15 +1,8 @@
 ﻿using AutoMapper;
 using Coddinggurrus.Core.Entities;
-using Coddinggurrus.Core.Helper;
-using Coddinggurrus.Core.Interfaces.Repositories.MenuRepo;
 using Coddinggurrus.Core.Interfaces.Repositories.RoleMenuPermissions;
 using Coddinggurrus.Core.Interfaces.Services.RoleMenuPermissions;
 using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Coddinggurrus.Business.Services.RoleMenuPermissions
 {

@@ -7,9 +7,6 @@ using Coddinggurrus.Infrastructure.Enums;
 using Coddinggurrus.Infrastructure.Exceptions;
 using Coddinggurrus.Infrastructure.Helpers;
 using Microsoft.Extensions.Configuration;
-using System.Diagnostics.Metrics;
-using System.Net.Mail;
-
 namespace Coddinggurrus.Business.Services.User
 {
     public class UserProfileService : BaseService, IUserProfileService

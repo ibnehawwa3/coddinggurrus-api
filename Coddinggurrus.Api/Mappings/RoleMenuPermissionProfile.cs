@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Coddinggurrus.Api.Models.Admin.Menu;
 using Coddinggurrus.Api.Models.Admin.RoleMenuPermission;
 using Coddinggurrus.Core.Entities;
 
