@@ -47,7 +47,7 @@ namespace Coddinggurrus.Business.Services.Tutorials
         /// </summary>
         /// <param name="listingParameter"></param>
         /// <returns></returns>
-        public async Task<IEnumerable<Topic>> GetTopics(ListingParameter listingParameter)
+        public async Task<IEnumerable<TopicCount>> GetTopics(ListingParameter listingParameter)
         {
             return await _topicRepository.GetTopics(listingParameter);
         }

@@ -24,8 +24,8 @@ namespace Coddinggurrus.Api.Controllers.Admin.Tutorials
             BasicResponse basicResponse = new BasicResponse();
             try
             {
-                var courses = await _topicService.GetTopics(listingParameter);
-                basicResponse.Data = JsonConvert.SerializeObject(courses);
+                var topics = await _topicService.GetTopics(listingParameter);
+                basicResponse.Data = JsonConvert.SerializeObject(topics);
             }
             catch (Exception e)
             {
@@ -41,8 +41,8 @@ namespace Coddinggurrus.Api.Controllers.Admin.Tutorials
             BasicResponse basicResponse = new BasicResponse();
             try
             {
-                var course = await _topicService.GetTopicById(intIdRequestModel.Id);
-                basicResponse.Data = JsonConvert.SerializeObject(course);
+                var topics = await _topicService.GetTopicById(intIdRequestModel.Id);
+                basicResponse.Data = JsonConvert.SerializeObject(topics);
             }
             catch (Exception e)
             {
@@ -69,8 +69,8 @@ namespace Coddinggurrus.Api.Controllers.Admin.Tutorials
                     return Conflict(basicResponse);
                 }
 
-                var users = await _topicService.AddTopic(Mapper.Map<Topic>(model));
-                basicResponse.Data = users;
+                var topics = await _topicService.AddTopic(Mapper.Map<Topic>(model));
+                basicResponse.Data = topics;
             }
             catch (Exception e)
             {

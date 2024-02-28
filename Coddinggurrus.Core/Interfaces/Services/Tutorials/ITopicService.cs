@@ -5,7 +5,7 @@ namespace Coddinggurrus.Core.Interfaces.Services.Tutorials
 {
     public interface ITopicService
     {
-        Task<IEnumerable<Topic>> GetTopics(ListingParameter listingParameter);
+        Task<IEnumerable<TopicCount>> GetTopics(ListingParameter listingParameter);
         Task<int> AddTopic(Topic topic);
         Task<bool> TitleExists(string title);
         Task<bool> UpdateTopic(Topic model);

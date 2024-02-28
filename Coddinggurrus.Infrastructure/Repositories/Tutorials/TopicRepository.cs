@@ -21,7 +21,7 @@ namespace Coddinggurrus.Infrastructure.Repositories.Tutorials
         public async Task<int> AddTopic(Topic topic)
         {
             string sql = @"
-            INSERT INTO dbo.Topic (Title, Description,CourseId,IsActive)
+            INSERT INTO dbo.Topics (Title, Description,CourseId,IsActive)
             VALUES (@Title, @Description,@CourseId,0);
             SELECT SCOPE_IDENTITY();";
 
@@ -39,7 +39,7 @@ namespace Coddinggurrus.Infrastructure.Repositories.Tutorials
         public async Task<bool> DeleteTopic(long Id)
         {
             var sql = @"
-            UPDATE Topic
+            UPDATE Topics
             SET IsActive = 1
             WHERE Id = @Id";
             using SqlConnection connection = new(CoddingGurrusDbConnectionString);
@@ -54,7 +54,7 @@ namespace Coddinggurrus.Infrastructure.Repositories.Tutorials
         /// <exception cref="NotImplementedException"></exception>
         public async Task<Topic> GetTopicById(long id)
         {
-            var sql = @"SELECT Id, Title, Description, CourseId FROM Topic WHERE Id = @Id";
+            var sql = @"SELECT Id, Title, Description, CourseId FROM Topics WHERE Id = @Id";
 
             using SqlConnection connection = new(CoddingGurrusDbConnectionString);
             var topic = await connection.QuerySingleOrDefaultAsync<Topic>(sql, new { Id = id });
@@ -66,10 +66,10 @@ namespace Coddinggurrus.Infrastructure.Repositories.Tutorials
         /// <param name="listingParameter"></param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        public async Task<IEnumerable<Topic>> GetTopics(ListingParameter listingParameter)
+        public async Task<IEnumerable<TopicCount>> GetTopics(ListingParameter listingParameter)
         {
             var countSql = @"SELECT COUNT(*) 
-                     FROM dbo.Topic a with (nolock) 
+                     FROM dbo.Topics a with (nolock) 
                      WHERE a.IsActive=0 AND a.Title like @TextToSearch";
 
             string sql;
@@ -77,7 +77,7 @@ namespace Coddinggurrus.Infrastructure.Repositories.Tutorials
             {
                 sql = @"
             SELECT a.Id, a.Title, a.Description
-            FROM dbo.Topic a with (nolock)
+            FROM dbo.Topics a with (nolock)
             WHERE a.IsActive=0
             ORDER BY a.CreatedBy DESC
             OFFSET @Skip ROWS FETCH NEXT @Take ROWS ONLY
@@ -87,7 +87,7 @@ namespace Coddinggurrus.Infrastructure.Repositories.Tutorials
             {
                 sql = @"
             SELECT a.Id, a.Title, a.Description
-            FROM dbo.Topic a with (nolock)
+            FROM dbo.Topics a with (nolock)
             WHERE a.IsActive=0 AND a.Title like @TextToSearch                        
             ORDER BY a.CreatedBy DESC
             OFFSET @Skip ROWS FETCH NEXT @Take ROWS ONLY
@@ -121,7 +121,7 @@ namespace Coddinggurrus.Infrastructure.Repositories.Tutorials
         public async Task<bool> TitleExists(string title)
         {
             var sql = @"SELECT TOP 1 1
-            FROM dbo.Topic
+            FROM dbo.Topics
             WHERE Title = @title"
             ;
             using SqlConnection connection = new(CoddingGurrusDbConnectionString);
@@ -137,7 +137,7 @@ namespace Coddinggurrus.Infrastructure.Repositories.Tutorials
         /// <exception cref="NotImplementedException"></exception>
         public async Task<bool> UpdateTopic(Topic model)
         {
-            var sql = @"UPDATE Topic 
+            var sql = @"UPDATE Topics 
                  SET Title = @Title,
                      Description = @Description,
                      CourseId = @CourseId

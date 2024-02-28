@@ -34,5 +34,5 @@ namespace Coddinggurrus.Api.Controllers.Admin
             }
             return Ok(basicResponse);
         }
-    }
+    } 
 }
