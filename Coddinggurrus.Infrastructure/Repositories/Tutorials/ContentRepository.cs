@@ -1,6 +1,7 @@
 ﻿using Coddinggurrus.Core.Entities.Tutorials;
 using Coddinggurrus.Core.Helper;
 using Coddinggurrus.Core.Interfaces.Repositories.Tutorials;
+using Coddinggurrus.Core.ViewModels;
 using Dapper;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
@@ -103,13 +104,26 @@ namespace Coddinggurrus.Infrastructure.Repositories.Tutorials
         /// <param name="id"></param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        public async Task<Content> GetContentById(long id)
+        public async Task<ContentViewModel> GetContentById(long id)
         {
-            var sql = @"SELECT Id, Title, TopicId,Text CourseId FROM Content WHERE Id = @Id";
-
             using SqlConnection connection = new(CoddingGurrusDbConnectionString);
+            var sqlQuery = @"Select CourseId from Topic where Id= @Id";
+
+            var topic = await connection.QuerySingleOrDefaultAsync(sqlQuery, new { Id = id });
+
+            var sql = @"SELECT Id, Title, TopicId,Text FROM Content WHERE Id = @Id";
+
             var content = await connection.QuerySingleOrDefaultAsync<Content>(sql, new { Id = id });
-            return content;
+
+            ContentViewModel contentViewModel = new ContentViewModel
+            {
+                Id = content.Id,
+                Title = content.Title,
+                Text = content.Text,
+                TopicId = content.TopicId,
+                CourseId = topic.CourseId
+            };
+            return contentViewModel;
         }
         /// <summary>
         /// 

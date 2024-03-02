@@ -3,6 +3,7 @@ using Coddinggurrus.Core.Entities.Tutorials;
 using Coddinggurrus.Core.Helper;
 using Coddinggurrus.Core.Interfaces.Repositories.Tutorials;
 using Coddinggurrus.Core.Interfaces.Services.Tutorials;
+using Coddinggurrus.Core.ViewModels;
 using Microsoft.Extensions.Configuration;
 
 namespace Coddinggurrus.Business.Services.Tutorials
@@ -25,7 +26,7 @@ namespace Coddinggurrus.Business.Services.Tutorials
             return await _contentRepository.DeleteContent(Id);
         }
 
-        public async Task<Content> GetContentById(long id)
+        public async Task<ContentViewModel> GetContentById(long id)
         {
             return await _contentRepository.GetContentById(id);
         }

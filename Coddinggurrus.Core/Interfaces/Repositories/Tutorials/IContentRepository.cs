@@ -1,5 +1,6 @@
 ﻿using Coddinggurrus.Core.Entities.Tutorials;
 using Coddinggurrus.Core.Helper;
+using Coddinggurrus.Core.ViewModels;
 
 namespace Coddinggurrus.Core.Interfaces.Repositories.Tutorials
 {
@@ -10,6 +11,6 @@ namespace Coddinggurrus.Core.Interfaces.Repositories.Tutorials
         Task<bool> TitleExists(string title, long topicId);
         Task<bool> UpdateContent(Content model);
         Task<bool> DeleteContent(long Id);
-        Task<Content> GetContentById(long id);
+        Task<ContentViewModel> GetContentById(long id);
     }
 }
