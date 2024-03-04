@@ -40,7 +40,7 @@ namespace Coddinggurrus.Api.Controllers.Admin
         [HttpPost]
         [Route("add")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> Add([FromBody]MenuModel model)
+        public async Task<IActionResult> Add(MenuModel model)
         {
             try
             {
@@ -71,7 +71,7 @@ namespace Coddinggurrus.Api.Controllers.Admin
         [HttpPost]
         [Route("update")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> Update([FromBody]MenuModel model)
+        public async Task<IActionResult> Update(MenuModel model)
         {
             try
             {
