@@ -107,13 +107,15 @@ namespace Coddinggurrus.Infrastructure.Repositories.Tutorials
         public async Task<ContentViewModel> GetContentById(long id)
         {
             using SqlConnection connection = new(CoddingGurrusDbConnectionString);
-            var sqlQuery = @"Select CourseId from Topic where Id= @Id";
-
-            var topic = await connection.QuerySingleOrDefaultAsync(sqlQuery, new { Id = id });
+            
 
             var sql = @"SELECT Id, Title, TopicId,Text FROM Content WHERE Id = @Id";
 
             var content = await connection.QuerySingleOrDefaultAsync<Content>(sql, new { Id = id });
+
+            var sqlQuery = @"Select CourseId from Topic where Id= @Id";
+
+            var topic = await connection.QuerySingleOrDefaultAsync(sqlQuery, new { Id = content.TopicId });
 
             ContentViewModel contentViewModel = new ContentViewModel
             {
