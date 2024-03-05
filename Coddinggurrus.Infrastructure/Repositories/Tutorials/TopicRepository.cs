@@ -3,6 +3,7 @@ using Coddinggurrus.Core.Helper;
 using Coddinggurrus.Core.Interfaces.Repositories.Tutorials;
 using Coddinggurrus.Core.Models.Generic;
 using Dapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 
@@ -10,7 +11,7 @@ namespace Coddinggurrus.Infrastructure.Repositories.Tutorials
 {
     public class TopicRepository : BaseRepository, ITopicRepository
     {
-        public TopicRepository(IConfiguration config) : base(config)
+        public TopicRepository(IConfiguration config, IHttpContextAccessor httpContextAccessor) : base(config, httpContextAccessor)
         {
         }
         /// <summary>
@@ -21,6 +22,7 @@ namespace Coddinggurrus.Infrastructure.Repositories.Tutorials
         /// <exception cref="NotImplementedException"></exception>
         public async Task<int> AddTopic(Topic topic)
         {
+            topic.CreatedBy = CreatedBy;
             string sql = @"
             INSERT INTO dbo.Topic (Title, Description,CourseId,IsActive)
             VALUES (@Title, @Description,@CourseId,0);

@@ -2,6 +2,7 @@
 using Coddinggurrus.Core.Interfaces.Repositories.User;
 using Coddinggurrus.Core.Models.User;
 using Dapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using System.Data;
@@ -10,7 +11,7 @@ namespace Coddinggurrus.Infrastructure.Repositories.User
 {
     public class UserRepository : BaseRepository, IUserRepository
     {
-        public UserRepository(IConfiguration config) : base(config)
+        public UserRepository(IConfiguration config, IHttpContextAccessor httpContextAccessor) : base(config, httpContextAccessor)
         {
         }
 

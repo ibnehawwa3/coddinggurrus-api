@@ -3,6 +3,7 @@ using Coddinggurrus.Core.Helper;
 using Coddinggurrus.Core.Interfaces.Repositories.MenuRepo;
 using Coddinggurrus.Core.Interfaces.Repositories.RoleMenuPermissions;
 using Dapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -16,7 +17,7 @@ namespace Coddinggurrus.Infrastructure.Repositories.RoleMenuPermissions
     public class RoleMenuPermissionRepositry : BaseRepository, IRoleMenuPermissionRepositry
     {
 
-        public RoleMenuPermissionRepositry(IConfiguration config) : base(config)
+        public RoleMenuPermissionRepositry(IConfiguration config, IHttpContextAccessor httpContextAccessor) : base(config, httpContextAccessor)
         {
 
         }
