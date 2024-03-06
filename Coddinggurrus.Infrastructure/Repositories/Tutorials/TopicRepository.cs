@@ -71,7 +71,7 @@ namespace Coddinggurrus.Infrastructure.Repositories.Tutorials
         {
             var countSql = @"SELECT COUNT(*) 
                      FROM dbo.Topic a with (nolock) 
-                     WHERE a.IsActive=0 AND a.Title like @TextToSearch";
+                     WHERE (@TextToSearch IS NULL OR a.Title like '%' + @TextToSearch + '%')";
 
             string sql;
             if (string.IsNullOrEmpty(listingParameter.TextToSearch))

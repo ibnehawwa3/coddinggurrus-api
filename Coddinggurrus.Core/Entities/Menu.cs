@@ -14,7 +14,7 @@ namespace Coddinggurrus.Core.Entities
     }
     public class MenuWithCount : Menu
     {
-        public int TotalCount { get; set; }
+        public int TotalRecords { get; set; }
 
     }
 }
