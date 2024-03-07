@@ -1,4 +1,5 @@
 ﻿using Coddinggurrus.Core.Entities;
+using Coddinggurrus.Core.Entities.Tutorials;
 using Coddinggurrus.Core.Entities.User;
 using Coddinggurrus.Core.Helper;
 using Coddinggurrus.Core.Interfaces.Repositories.MenuRepo;
@@ -27,9 +28,10 @@ namespace Coddinggurrus.Infrastructure.Repositories.MenuRepo
         /// <returns></returns>
         public async Task<IEnumerable<Menu>> GetMenus(ListingParameter listingParameter)
         {
-            var countSql = @$"SELECT COUNT(*) 
-                     FROM dbo.Menus a with (nolock) 
-                     WHERE a.Name like '%{listingParameter.TextToSearch}%'";
+            var countSql = @$"SELECT COUNT(*)
+                  FROM dbo.Menus a with (nolock) 
+                  WHERE (@TextToSearch IS NULL OR a.Name like '%' + @TextToSearch + '%')";
+
             string sql;
             if (string.IsNullOrEmpty(listingParameter.TextToSearch))
             {
@@ -48,14 +50,23 @@ namespace Coddinggurrus.Infrastructure.Repositories.MenuRepo
              OFFSET @skip ROWS FETCH NEXT @take ROWS ONLY
              {countSql}";
             }
-            using SqlConnection connection = new(CoddingGurrusDbConnectionString);
-            var grid = await connection.QueryMultipleAsync(sql, new { listingParameter.TextToSearch, listingParameter.Skip, listingParameter.Take });
-            var articles = grid.Read<MenuWithCount>().ToList();
-            var TotalCount = grid.Read<int>().FirstOrDefault();
-            articles.ForEach(article => article.TotalCount = TotalCount);
 
-            grid.Dispose();
-            return articles;
+            using (SqlConnection connection = new SqlConnection(CoddingGurrusDbConnectionString))
+            {
+                var parameters = new
+                {
+                    TextToSearch = $"%{listingParameter.TextToSearch}%", // Applying wildcard here
+                    Skip = (listingParameter.Skip - 1) * listingParameter.Take, // Calculate skip based on Skip and Take
+                    Take = listingParameter.Take // Use Take directly
+                };
+
+                var grid = await connection.QueryMultipleAsync(sql + countSql, parameters);
+                var menus = grid.Read<MenuWithCount>().ToList();
+                var totalRecords = grid.Read<int>().FirstOrDefault();
+
+                menus.ForEach(topic => topic.TotalRecords = totalRecords);
+                return menus;
+            }
         }
 
         public async Task<Menu> GetMenuById(int id)

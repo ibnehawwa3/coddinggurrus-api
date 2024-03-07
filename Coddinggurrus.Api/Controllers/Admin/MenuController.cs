@@ -46,7 +46,7 @@ namespace Coddinggurrus.Api.Controllers.Admin
             {
                 if (string.IsNullOrEmpty(model.Name))
                     return BadRequest($"Missing required fields.");
-
+                
                 var nameExists = await _menuService.NameExists(model.Name);
                 if (nameExists) return BadRequest($"Course {model.Name} already exists.");
 
