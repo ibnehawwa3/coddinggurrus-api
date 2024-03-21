@@ -2,6 +2,7 @@
 using Coddinggurrus.Core.Entities;
 using Coddinggurrus.Core.Interfaces.Repositories.RoleMenuPermissions;
 using Coddinggurrus.Core.Interfaces.Services.RoleMenuPermissions;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 
 namespace Coddinggurrus.Business.Services.RoleMenuPermissions
@@ -9,7 +10,7 @@ namespace Coddinggurrus.Business.Services.RoleMenuPermissions
     public class RoleMenuPermissionService : BaseService, IRoleMenuPermissionService
     {
         private readonly IRoleMenuPermissionRepositry _roleMenuPermissionRepositry;
-        public RoleMenuPermissionService(IRoleMenuPermissionRepositry roleMenuPermissionRepositry, IConfiguration config, IMapper mapper) : base(config, mapper)
+        public RoleMenuPermissionService(IRoleMenuPermissionRepositry roleMenuPermissionRepositry, IConfiguration config, IMapper mapper, IMemoryCache cache) : base(config, mapper, cache)
         {
             _roleMenuPermissionRepositry = roleMenuPermissionRepositry;
         }

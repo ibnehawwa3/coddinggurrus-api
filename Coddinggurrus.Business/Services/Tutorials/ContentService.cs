@@ -5,13 +5,14 @@ using Coddinggurrus.Core.Interfaces.Repositories.Tutorials;
 using Coddinggurrus.Core.Interfaces.Services.Tutorials;
 using Coddinggurrus.Core.ViewModels;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace Coddinggurrus.Business.Services.Tutorials
 {
     public class ContentService : BaseService, IContentService
     {
         private readonly IContentRepository _contentRepository;
-        public ContentService(IContentRepository contentRepository, IConfiguration config, IMapper mapper) : base(config, mapper)
+        public ContentService(IContentRepository contentRepository, IConfiguration config, IMapper mapper, IMemoryCache cache) : base(config, mapper, cache)
         {
             _contentRepository = contentRepository;
         }

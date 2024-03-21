@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Coddinggurrus.Web.Api.Controllers
 {
@@ -6,6 +7,12 @@ namespace Coddinggurrus.Web.Api.Controllers
     [ApiController]
     public abstract class ApiController : ControllerBase
     {
-
+        protected readonly IMapper Mapper;
+        protected IConfiguration Config;
+        public ApiController(IMapper mapper, IConfiguration config)
+        {
+            Mapper = mapper;
+            Config = config;
+        }
     }
 }
