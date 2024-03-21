@@ -1,9 +1,10 @@
-﻿using Coddinggurrus.Core.Entities.Tutorials;
+﻿using Coddinggurrus.Core.Dto.Tutorials;
+using Coddinggurrus.Core.Entities.Tutorials;
 
 namespace Coddinggurrus.Core.Interfaces.Services.Tutorials.Web
 {
     public interface IWebCourseService
     {
-        Task<IEnumerable<Course>> GetCoursesForSlider();
+        Task<IEnumerable<CourseDto>> GetCoursesForSlider();
     }
 }

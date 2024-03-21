@@ -1,5 +1,4 @@
 ﻿using Coddinggurrus.Core.Entities.Tutorials;
-using Coddinggurrus.Core.Helper;
 using Coddinggurrus.Core.Interfaces.Repositories.Tutorials.Web;
 using Dapper;
 using Microsoft.AspNetCore.Http;

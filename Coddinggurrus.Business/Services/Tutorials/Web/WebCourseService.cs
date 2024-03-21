@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Coddinggurrus.Core.Dto.Tutorials;
 using Coddinggurrus.Core.Entities.Tutorials;
 using Coddinggurrus.Core.Interfaces.Repositories.Tutorials.Web;
 using Coddinggurrus.Core.Interfaces.Services.Tutorials.Web;
@@ -18,9 +19,18 @@ namespace Coddinggurrus.Business.Services.Tutorials.Web
         /// 
         /// </summary>
         /// <returns></returns>
-        public async Task<IEnumerable<Course>> GetCoursesForSlider()
+        public async Task<IEnumerable<CourseDto>> GetCoursesForSlider()
         {
-            return await _webCourseRepository.GetCoursesForSlider();
+            if (!Cache.TryGetValue("CoursesForSlider", out IEnumerable<Course>? courses))
+            {
+                courses = await _webCourseRepository.GetCoursesForSlider();
+                if (courses.Any())
+                {
+                    Cache.Set("CoursesForSlider", courses, TimeSpan.FromMinutes(60));
+                }
+            }
+            return Mapper.Map<IEnumerable<CourseDto>>(courses);
         }
+
     }
 }
