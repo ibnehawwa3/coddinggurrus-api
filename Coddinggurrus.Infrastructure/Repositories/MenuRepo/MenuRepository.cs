@@ -4,6 +4,7 @@ using Coddinggurrus.Core.Entities.User;
 using Coddinggurrus.Core.Helper;
 using Coddinggurrus.Core.Interfaces.Repositories.MenuRepo;
 using Dapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Configuration;
@@ -14,7 +15,7 @@ namespace Coddinggurrus.Infrastructure.Repositories.MenuRepo
     public class MenuRepository : BaseRepository , IMenuRepository
     {
 
-        public MenuRepository(IConfiguration config) : base(config)
+        public MenuRepository(IConfiguration config, IHttpContextAccessor httpContextAccessor) : base(config, httpContextAccessor)
         {
             
         }

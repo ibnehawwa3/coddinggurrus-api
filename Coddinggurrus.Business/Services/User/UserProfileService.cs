@@ -6,13 +6,14 @@ using Coddinggurrus.Core.Models.User;
 using Coddinggurrus.Infrastructure.Enums;
 using Coddinggurrus.Infrastructure.Exceptions;
 using Coddinggurrus.Infrastructure.Helpers;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 namespace Coddinggurrus.Business.Services.User
 {
     public class UserProfileService : BaseService, IUserProfileService
     {
         private readonly IUserProfileRepository _userProfileRepository;
-        public UserProfileService(IUserProfileRepository userProfileRepository, IConfiguration config, IMapper mapper) : base(config, mapper)
+        public UserProfileService(IUserProfileRepository userProfileRepository, IConfiguration config, IMapper mapper, IMemoryCache cache) : base(config, mapper, cache)
         {
             _userProfileRepository = userProfileRepository;
         }

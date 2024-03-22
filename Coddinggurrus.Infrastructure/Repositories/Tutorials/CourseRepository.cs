@@ -3,6 +3,7 @@ using Coddinggurrus.Core.Helper;
 using Coddinggurrus.Core.Interfaces.Repositories.Tutorials;
 using Coddinggurrus.Core.Models.Generic;
 using Dapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 
@@ -10,7 +11,7 @@ namespace Coddinggurrus.Infrastructure.Repositories.Tutorials
 {
     public class CourseRepository : BaseRepository, ICourseRepository
     {
-        public CourseRepository(IConfiguration config) : base(config)
+        public CourseRepository(IConfiguration config, IHttpContextAccessor httpContextAccessor) : base(config, httpContextAccessor)
         {
         }
         /// <summary>
@@ -73,9 +74,10 @@ namespace Coddinggurrus.Infrastructure.Repositories.Tutorials
         /// <returns></returns>
         public async Task<int> AddCourse(Course course)
         {
+            course.CreatedBy = CreatedBy;
             string sql = @"
-            INSERT INTO dbo.Course (Title, Description,IsActive)
-            VALUES (@Title, @Description,0);
+            INSERT INTO dbo.Course (Title, Description,CreatedBy,IsActive)
+            VALUES (@Title, @Description,@CreatedBy,0);
             SELECT SCOPE_IDENTITY();";
 
             using SqlConnection connection = new(CoddingGurrusDbConnectionString);

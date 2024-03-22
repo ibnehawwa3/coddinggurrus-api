@@ -4,13 +4,14 @@ using Coddinggurrus.Core.Interfaces.Repositories.User;
 using Coddinggurrus.Core.Interfaces.Services.User;
 using Coddinggurrus.Core.Models.User;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace Coddinggurrus.Business.Services.User
 {
     public class UserService : BaseService , IUserService
     {
         private readonly IUserRepository _userRepository;
-        public UserService(IConfiguration config, IUserRepository userRepository, IMapper mapper) : base(config, mapper)
+        public UserService(IConfiguration config, IUserRepository userRepository, IMapper mapper, IMemoryCache cache) : base(config, mapper, cache)
         {
             _userRepository = userRepository;
         }

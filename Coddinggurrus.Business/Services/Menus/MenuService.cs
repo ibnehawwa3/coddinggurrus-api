@@ -3,6 +3,7 @@ using Coddinggurrus.Core.Entities;
 using Coddinggurrus.Core.Helper;
 using Coddinggurrus.Core.Interfaces.Repositories.MenuRepo;
 using Coddinggurrus.Core.Interfaces.Services.Menus;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 
 namespace Coddinggurrus.Business.Services.Menus
@@ -11,7 +12,7 @@ namespace Coddinggurrus.Business.Services.Menus
     {
 
         private readonly IMenuRepository _menuRepository;
-        public MenuService(IMenuRepository menuRepository, IConfiguration config, IMapper mapper) : base(config, mapper)
+        public MenuService(IMenuRepository menuRepository, IConfiguration config, IMapper mapper, IMemoryCache cache) : base(config, mapper, cache)
         {
             _menuRepository = menuRepository;
         }

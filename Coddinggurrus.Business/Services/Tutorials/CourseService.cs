@@ -4,6 +4,7 @@ using Coddinggurrus.Core.Helper;
 using Coddinggurrus.Core.Interfaces.Repositories.Tutorials;
 using Coddinggurrus.Core.Interfaces.Services.Tutorials;
 using Coddinggurrus.Core.Models.Generic;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 
 namespace Coddinggurrus.Business.Services.Tutorials
@@ -11,7 +12,7 @@ namespace Coddinggurrus.Business.Services.Tutorials
     public class CourseService : BaseService, ICourseService
     {
         private readonly ICourseRepository _courseRepository;
-        public CourseService(ICourseRepository courseRepository, IConfiguration config, IMapper mapper) : base(config, mapper)
+        public CourseService(ICourseRepository courseRepository, IConfiguration config, IMapper mapper, IMemoryCache cache) : base(config, mapper, cache)
         {
             _courseRepository = courseRepository;
         }

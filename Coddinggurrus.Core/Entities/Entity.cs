@@ -8,5 +8,6 @@ namespace Coddinggurrus.Core.Entities
 
     public abstract class Entity
     {
+        public string CreatedBy { get; set; }
     }
 }

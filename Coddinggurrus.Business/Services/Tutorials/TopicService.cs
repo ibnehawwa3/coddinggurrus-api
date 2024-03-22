@@ -5,6 +5,7 @@ using Coddinggurrus.Core.Helper;
 using Coddinggurrus.Core.Interfaces.Repositories.Tutorials;
 using Coddinggurrus.Core.Interfaces.Services.Tutorials;
 using Coddinggurrus.Core.Models.Generic;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 
 namespace Coddinggurrus.Business.Services.Tutorials
@@ -12,7 +13,7 @@ namespace Coddinggurrus.Business.Services.Tutorials
     public class TopicService : BaseService, ITopicService
     {
         private readonly ITopicRepository _topicRepository;
-        public TopicService(ITopicRepository topicRepository, IConfiguration config, IMapper mapper) : base(config, mapper)
+        public TopicService(ITopicRepository topicRepository, IConfiguration config, IMapper mapper, IMemoryCache cache) : base(config, mapper, cache)
         {
             _topicRepository = topicRepository;
         }
