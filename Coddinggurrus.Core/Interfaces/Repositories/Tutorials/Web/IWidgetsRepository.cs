@@ -1,10 +1,9 @@
 ﻿
 using Coddinggurrus.Core.Entities.Tutorials;
-using Coddinggurrus.Core.Helper;
 
 namespace Coddinggurrus.Core.Interfaces.Repositories.Tutorials.Web
 {
-    public interface IWebCourseRepository
+    public interface IWidgetsRepository
     {
         Task<IEnumerable<Course>?> GetBrowseTopics();
         Task<IEnumerable<Course>> GetCoursesForSlider();

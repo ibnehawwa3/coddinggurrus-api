@@ -8,12 +8,12 @@ using Microsoft.Extensions.Configuration;
 
 namespace Coddinggurrus.Business.Services.Tutorials.Web
 {
-    public class WebCourseService : BaseService, IWebCourseService
+    public class WidgetsService : BaseService, IWidgetsService
     {
-        private readonly IWebCourseRepository _webCourseRepository;
-        public WebCourseService(IWebCourseRepository webCourseRepository, IConfiguration config, IMapper mapper, IMemoryCache cache) : base(config, mapper, cache)
+        private readonly IWidgetsRepository _widgetsRepository;
+        public WidgetsService(IWidgetsRepository widgetsRepository, IConfiguration config, IMapper mapper, IMemoryCache cache) : base(config, mapper, cache)
         {
-            _webCourseRepository = webCourseRepository;
+            _widgetsRepository = widgetsRepository;
         }
         /// <summary>
         /// 
@@ -24,7 +24,7 @@ namespace Coddinggurrus.Business.Services.Tutorials.Web
         {
             if (!Cache.TryGetValue("BrowseTopics", out IEnumerable<Course>? courses))
             {
-                courses = await _webCourseRepository.GetBrowseTopics();
+                courses = await _widgetsRepository.GetBrowseTopics();
                 if (courses.Any())
                 {
                     Cache.Set("BrowseTopics", courses, TimeSpan.FromMinutes(60));
@@ -41,7 +41,7 @@ namespace Coddinggurrus.Business.Services.Tutorials.Web
         {
             if (!Cache.TryGetValue("CoursesForSlider", out IEnumerable<Course>? courses))
             {
-                courses = await _webCourseRepository.GetCoursesForSlider();
+                courses = await _widgetsRepository.GetCoursesForSlider();
                 if (courses.Any())
                 {
                     Cache.Set("CoursesForSlider", courses, TimeSpan.FromMinutes(60));

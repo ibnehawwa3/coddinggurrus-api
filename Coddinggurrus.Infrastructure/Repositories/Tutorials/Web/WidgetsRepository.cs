@@ -7,9 +7,9 @@ using Microsoft.Extensions.Configuration;
 
 namespace Coddinggurrus.Infrastructure.Repositories.Tutorials.Web
 {
-    public class WebCourseRepository : BaseRepository, IWebCourseRepository
+    public class WidgetsRepository : BaseRepository, IWidgetsRepository
     {
-        public WebCourseRepository(IConfiguration config, IHttpContextAccessor httpContextAccessor) : base(config, httpContextAccessor)
+        public WidgetsRepository(IConfiguration config, IHttpContextAccessor httpContextAccessor) : base(config, httpContextAccessor)
         {
         }
         /// <summary>

@@ -8,12 +8,12 @@ namespace Coddinggurrus.Api.Controllers.Web
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class WebCourseController : ApiController
+    public class WidgetsController : ApiController
     {
-        private readonly IWebCourseService _webCourseService;
-        public WebCourseController(IWebCourseService webCourseService, IMapper mapper, IConfiguration config) : base(mapper, config)
+        private readonly IWidgetsService _widgetsService;
+        public WidgetsController(IWidgetsService widgetsService, IMapper mapper, IConfiguration config) : base(mapper, config)
         {
-            _webCourseService = webCourseService;
+            _widgetsService = widgetsService;
         }
         [HttpGet("course-list-for-slider")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -22,7 +22,7 @@ namespace Coddinggurrus.Api.Controllers.Web
             BasicResponse basicResponse = new BasicResponse();
             try
             {
-                var courses = await _webCourseService.GetCoursesForSlider();
+                var courses = await _widgetsService.GetCoursesForSlider();
                 basicResponse.Data = JsonConvert.SerializeObject(courses);
             }
             catch (Exception e)
@@ -38,7 +38,7 @@ namespace Coddinggurrus.Api.Controllers.Web
             BasicResponse basicResponse = new BasicResponse();
             try
             {
-                var courses = await _webCourseService.GetBrowseTopics();
+                var courses = await _widgetsService.GetBrowseTopics();
                 basicResponse.Data = JsonConvert.SerializeObject(courses);
             }
             catch (Exception e)
