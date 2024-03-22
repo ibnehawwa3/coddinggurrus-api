@@ -20,7 +20,7 @@ namespace Coddinggurrus.Business.Services.Tutorials.Web
         /// </summary>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        public async Task<IEnumerable<CourseDto>> GetBrowseTopics()
+        public async Task<IEnumerable<BrowseCourseDto>> GetBrowseTopics()
         {
             if (!Cache.TryGetValue("BrowseTopics", out IEnumerable<Course>? courses))
             {
@@ -30,7 +30,7 @@ namespace Coddinggurrus.Business.Services.Tutorials.Web
                     Cache.Set("BrowseTopics", courses, TimeSpan.FromMinutes(60));
                 }
             }
-            return Mapper.Map<IEnumerable<CourseDto>>(courses);
+            return Mapper.Map<IEnumerable<BrowseCourseDto>>(courses);
         }
 
         /// <summary>

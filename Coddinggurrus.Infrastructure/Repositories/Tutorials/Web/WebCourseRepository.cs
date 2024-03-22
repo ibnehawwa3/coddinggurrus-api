@@ -20,7 +20,7 @@ namespace Coddinggurrus.Infrastructure.Repositories.Tutorials.Web
         public async Task<IEnumerable<Course>?> GetBrowseTopics()
         {
             string sql = @"
-                           SELECT TOP(14) a.Id, a.Title
+                           SELECT TOP(14) a.Id, a.Title, a.Image
                            FROM dbo.Course a with (nolock)
                            WHERE a.IsActive = 0
                            ORDER BY a.CreatedBy DESC";
