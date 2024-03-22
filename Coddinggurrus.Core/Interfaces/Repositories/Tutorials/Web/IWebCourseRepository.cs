@@ -6,6 +6,7 @@ namespace Coddinggurrus.Core.Interfaces.Repositories.Tutorials.Web
 {
     public interface IWebCourseRepository
     {
+        Task<IEnumerable<Course>?> GetBrowseTopics();
         Task<IEnumerable<Course>> GetCoursesForSlider();
     }
 }

@@ -19,6 +19,24 @@ namespace Coddinggurrus.Business.Services.Tutorials.Web
         /// 
         /// </summary>
         /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public async Task<IEnumerable<CourseDto>> GetBrowseTopics()
+        {
+            if (!Cache.TryGetValue("BrowseTopics", out IEnumerable<Course>? courses))
+            {
+                courses = await _webCourseRepository.GetBrowseTopics();
+                if (courses.Any())
+                {
+                    Cache.Set("BrowseTopics", courses, TimeSpan.FromMinutes(60));
+                }
+            }
+            return Mapper.Map<IEnumerable<CourseDto>>(courses);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public async Task<IEnumerable<CourseDto>> GetCoursesForSlider()
         {
             if (!Cache.TryGetValue("CoursesForSlider", out IEnumerable<Course>? courses))

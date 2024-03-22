@@ -31,5 +31,21 @@ namespace Coddinggurrus.Api.Controllers.Web
             }
             return Ok(basicResponse);
         }
+        [HttpGet("browse-topics")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetBrowseTopics()
+        {
+            BasicResponse basicResponse = new BasicResponse();
+            try
+            {
+                var courses = await _webCourseService.GetBrowseTopics();
+                basicResponse.Data = JsonConvert.SerializeObject(courses);
+            }
+            catch (Exception e)
+            {
+                basicResponse.ErrorMessage = e.Message;
+            }
+            return Ok(basicResponse);
+        }
     }
 }
