@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Coddinggurrus.Core.Helper;
 using Coddinggurrus.Core.Interfaces.Services.Tutorials.Web;
 using Coddinggurrus.Infrastructure.APIModels;
 using Microsoft.AspNetCore.Mvc;
@@ -17,13 +18,13 @@ namespace Coddinggurrus.Api.Controllers.Web
         }
         [HttpGet("course-list-for-slider")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetCoursesForSlider()
+        public async Task<IActionResult> GetCoursesForSlider([FromQuery] ListingParameter listingParameter)
         {
             BasicResponse basicResponse = new BasicResponse();
             try
             {
                 var courses = await _webCourseService.GetCoursesForSlider();
-                basicResponse.Data = JsonConvert.SerializeObject(courses);
+                basicResponse.Data = courses;
             }
             catch (Exception e)
             {

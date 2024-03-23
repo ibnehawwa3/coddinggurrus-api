@@ -79,7 +79,7 @@ namespace Coddinggurrus.Infrastructure.Repositories.Tutorials
             if (string.IsNullOrEmpty(listingParameter.TextToSearch))
             {
                 sql = @"
-            SELECT a.Id, a.Title, a.Description
+            SELECT a.Id, a.Title, a.Description,a.Tags
             FROM dbo.Topic a with (nolock)
             WHERE a.IsActive=0
             ORDER BY a.CreatedBy DESC
@@ -89,7 +89,7 @@ namespace Coddinggurrus.Infrastructure.Repositories.Tutorials
             else
             {
                 sql = @"
-            SELECT a.Id, a.Title, a.Description
+            SELECT a.Id, a.Title, a.Description,a.Tags
             FROM dbo.Topic a with (nolock)
             WHERE a.IsActive=0 AND a.Title like @TextToSearch                        
             ORDER BY a.CreatedBy DESC

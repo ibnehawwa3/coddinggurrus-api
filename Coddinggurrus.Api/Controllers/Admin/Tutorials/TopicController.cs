@@ -25,7 +25,15 @@ namespace Coddinggurrus.Api.Controllers.Admin.Tutorials
             try
             {
                 var topics = await _topicService.GetTopics(listingParameter);
-                basicResponse.Data = JsonConvert.SerializeObject(topics);
+                if (listingParameter.SelilizationNeeded)
+                {
+                    basicResponse.Data = JsonConvert.SerializeObject(topics);
+                }
+                else
+                {
+                    basicResponse.Data = topics;
+
+                }
             }
             catch (Exception e)
             {
