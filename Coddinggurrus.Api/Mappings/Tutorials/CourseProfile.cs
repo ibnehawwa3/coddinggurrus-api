@@ -12,6 +12,7 @@ namespace Coddinggurrus.Api.Mappings.Tutorials
             CreateMap<CourseModel, Course>();
             CreateMap<Course, CourseDto>();
             CreateMap<Course, BrowseCourseDto>();
+            CreateMap<Course, CourseTopicDto>();
         }
     }
 }

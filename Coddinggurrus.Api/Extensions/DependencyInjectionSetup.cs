@@ -37,6 +37,7 @@ namespace Coddinggurrus.Api.Extensions
                 .AddScoped<IContentService, ContentService>()
                 .AddScoped<IWebContentService, WebContentService>()
                 .AddScoped<IWidgetsService, WidgetsService>()
+                .AddScoped<ICourseContentRepository, CourseContentRepository>()
 
                 .AddScoped<IUserRepository, UserRepository>()
                 .AddScoped<IUserProfileRepository, UserProfileRepository>()
@@ -47,6 +48,7 @@ namespace Coddinggurrus.Api.Extensions
                 .AddScoped<IContentRepository, ContentRepository>()
                 .AddScoped<IWebContentRepository, WebContentRepository>()
                 .AddScoped<IWidgetsRepository, WidgetsRepository>()
+                .AddScoped<ICourseContentService, CourseContentService>()
                 .AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
         }
