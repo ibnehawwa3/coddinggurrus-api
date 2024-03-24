@@ -12,7 +12,36 @@ namespace Coddinggurrus.Infrastructure.Repositories.Tutorials.Web
         public CourseContentRepository(IConfiguration config, IHttpContextAccessor httpContextAccessor) : base(config, httpContextAccessor)
         {
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="topicId"></param>
+        /// <returns></returns>
+        public async Task<Topic?> GetTopicContentById(long topicId)
+        {
+            var sql = @"
+            SELECT t.Id, t.Title, t.Description, t.CourseId, t.Tags,
+                   c.Id, c.Text , c.Title, c.TopicId
+            FROM dbo.Topic t with (nolock)
+            INNER JOIN dbo.Content c with (nolock) ON t.Id = c.TopicId
+            WHERE t.IsActive = 0 AND t.Id = @topicId";
 
+            using var connection = new SqlConnection(CoddingGurrusDbConnectionString);
+
+            var results = await connection.QueryAsync<Topic, Content, Topic>(sql, map: (t, c) =>
+            {
+                t.Content = c;
+                return t;
+            }, new { topicId });
+
+            return results.FirstOrDefault();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="courseId"></param>
+        /// <returns></returns>
         public async Task<IEnumerable<Course>?> GetTopicsByCourseId(long courseId)
         {
             var sql = @"

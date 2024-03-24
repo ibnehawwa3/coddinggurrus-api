@@ -31,5 +31,23 @@ namespace Coddinggurrus.Api.Controllers.Web
             }
             return Ok(basicResponse);
         }
+
+        [HttpGet("topic-content-by-id")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetTopicContentById(long topicId)
+        {
+            BasicResponse basicResponse = new BasicResponse();
+            try
+            {
+                var topicContent = await _courseContentService.GetTopicContentById(topicId);
+                basicResponse.Data = topicContent;
+            }
+            catch (Exception e)
+            {
+                basicResponse.ErrorMessage = e.Message;
+            }
+            return Ok(basicResponse);
+        }
+
     }
 }

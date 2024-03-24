@@ -15,7 +15,29 @@ namespace Coddinggurrus.Business.Services.Tutorials.Web
         {
             _courseContentRepository = courseContentRepository;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="topicId"></param>
+        /// <returns></returns>
+        public async Task<TopicContentDto> GetTopicContentById(long topicId)
+        {
+            string cacheKey = $"Topic-Content-By-Id-{topicId}";
+            if (!Cache.TryGetValue(cacheKey, out Topic? topicContent))
+            {
+                topicContent = await _courseContentRepository.GetTopicContentById(topicId);
+                if (topicContent is not null)
+                {
+                    Cache.Set(cacheKey, topicContent, TimeSpan.FromMinutes(60));
+                }
+            }
+            return Mapper.Map<TopicContentDto>(topicContent);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="courseId"></param>
+        /// <returns></returns>
         public async Task<IEnumerable<CourseTopicDto>> GetTopicsByCourseId(long courseId)
         {
             string cacheKey = $"Topics-By-Course-Id-{courseId}";

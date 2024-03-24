@@ -11,6 +11,8 @@ namespace Coddinggurrus.Api.Mappings.Tutorials
         {
             CreateMap<TopicModel, Topic>();
             CreateMap<Topic, TopicDto>();
+            CreateMap<Topic, TopicContentDto>();
+
         }
     }
 }
