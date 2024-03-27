@@ -8,6 +8,7 @@ namespace Coddinggurrus.Core.Entities.Tutorials
         public string Description { get; set; }
         public long CourseId { get; set; }
         public string Tags { get; set; }
+        public Content Content { get; set; } = new Content();
     }
     public class TopicCount : Topic
     {
