@@ -13,6 +13,5 @@ namespace Coddinggurrus.Core.Interfaces.Repositories.Tutorials
         Task<bool> DeleteCourse(long Id);
         Task<Course> GetCourseById(long id);
         Task<IEnumerable<DropdownListItems>> GetAllCoursesForDropdown();
-
     }
 }

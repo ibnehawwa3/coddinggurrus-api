@@ -3,19 +3,21 @@ using Coddinggurrus.Api.Models.Admin.Generic;
 using Coddinggurrus.Api.Models.Admin.Tutorials;
 using Coddinggurrus.Core.Entities.Tutorials;
 using Coddinggurrus.Core.Helper;
-using Coddinggurrus.Core.Interfaces.Services.Tutorials;
+using Coddinggurrus.Core.Interfaces.Services.Tutorials.ProblemsFaced;
 using Coddinggurrus.Infrastructure.APIModels;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
-namespace Coddinggurrus.Api.Controllers.Admin.Tutorials
+namespace Coddinggurrus.Api.Controllers.Admin.ProblemsFaced
 {
-    public class ContentController : AdminController
+    [Route("api/[controller]")]
+    [ApiController]
+    public class ProblemContentController : AdminController
     {
-        private readonly IContentService _contentService;
-        public ContentController(IContentService contentService, IMapper mapper, IConfiguration config) : base(mapper, config)
+        private readonly IProblemContentService _problemContentService;
+        public ProblemContentController(IProblemContentService problemContentService, IMapper mapper, IConfiguration config) : base(mapper, config)
         {
-            _contentService = contentService;
+            _problemContentService = problemContentService;
         }
         [HttpGet("list")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -24,7 +26,7 @@ namespace Coddinggurrus.Api.Controllers.Admin.Tutorials
             BasicResponse basicResponse = new BasicResponse();
             try
             {
-                var courses = await _contentService.GetContents(listingParameter);
+                var courses = await _problemContentService.GetContents(listingParameter);
                 basicResponse.Data = JsonConvert.SerializeObject(courses);
             }
             catch (Exception e)
@@ -41,7 +43,7 @@ namespace Coddinggurrus.Api.Controllers.Admin.Tutorials
             BasicResponse basicResponse = new BasicResponse();
             try
             {
-                var course = await _contentService.GetContentById(intIdRequestModel.Id);
+                var course = await _problemContentService.GetContentById(intIdRequestModel.Id);
                 basicResponse.Data = JsonConvert.SerializeObject(course);
             }
             catch (Exception e)
@@ -61,7 +63,7 @@ namespace Coddinggurrus.Api.Controllers.Admin.Tutorials
                 if (string.IsNullOrEmpty(model.Title))
                     return BadRequest($"Missing required fields.");
 
-                var titleExists = await _contentService.TitleExists(model.Title,model.TopicId);
+                var titleExists = await _problemContentService.TitleExists(model.Title, model.TopicId);
                 if (titleExists)
                 {
                     basicResponse.ErrorMessage = $"Topic {model.Title} already exists.";
@@ -69,7 +71,7 @@ namespace Coddinggurrus.Api.Controllers.Admin.Tutorials
                     return Conflict(basicResponse);
                 }
 
-                var users = await _contentService.AddContent(Mapper.Map<Content>(model));
+                var users = await _problemContentService.AddContent(Mapper.Map<Content>(model));
                 basicResponse.Data = users;
             }
             catch (Exception e)
@@ -89,7 +91,7 @@ namespace Coddinggurrus.Api.Controllers.Admin.Tutorials
                 if (string.IsNullOrEmpty(model.Title))
                     return BadRequest($"Missing required fields.");
 
-                await _contentService.UpdateContent(Mapper.Map<Content>(model));
+                await _problemContentService.UpdateContent(Mapper.Map<Content>(model));
                 basicResponse.Data = NoContent();
             }
             catch (Exception e)
@@ -106,7 +108,7 @@ namespace Coddinggurrus.Api.Controllers.Admin.Tutorials
             BasicResponse basicResponse = new BasicResponse();
             try
             {
-                await _contentService.DeleteContent(Id);
+                await _problemContentService.DeleteContent(Id);
                 basicResponse.Data = NoContent();
             }
             catch (Exception e)
@@ -115,6 +117,5 @@ namespace Coddinggurrus.Api.Controllers.Admin.Tutorials
             }
             return Ok(basicResponse);
         }
-
     }
 }
