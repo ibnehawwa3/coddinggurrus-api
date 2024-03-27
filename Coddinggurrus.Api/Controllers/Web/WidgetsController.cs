@@ -23,7 +23,7 @@ namespace Coddinggurrus.Api.Controllers.Web
             try
             {
                 var courses = await _widgetsService.GetCoursesForSlider();
-                basicResponse.Data = JsonConvert.SerializeObject(courses);
+                basicResponse.Data = courses;
             }
             catch (Exception e)
             {
@@ -39,7 +39,7 @@ namespace Coddinggurrus.Api.Controllers.Web
             try
             {
                 var courses = await _widgetsService.GetBrowseTopics();
-                basicResponse.Data = JsonConvert.SerializeObject(courses);
+                basicResponse.Data = courses;
             }
             catch (Exception e)
             {

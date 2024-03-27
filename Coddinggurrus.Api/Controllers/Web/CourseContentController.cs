@@ -23,7 +23,7 @@ namespace Coddinggurrus.Api.Controllers.Web
             try
             {
                 var topics = await _courseContentService.GetTopicsByCourseId(courseId);
-                basicResponse.Data = JsonConvert.SerializeObject(topics);
+                basicResponse.Data = topics;
             }
             catch (Exception e)
             {

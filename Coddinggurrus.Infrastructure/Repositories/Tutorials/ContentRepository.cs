@@ -29,7 +29,7 @@ namespace Coddinggurrus.Infrastructure.Repositories.Tutorials
             SELECT SCOPE_IDENTITY();";
 
             using SqlConnection connection = new(CoddingGurrusDbConnectionString);
-            int contentId = await connection.ExecuteScalarAsync<int>(sql, content);
+            int contentId = await connection.ExecuteScalarAsync<int>(sql, content); 
 
             return contentId;
         }

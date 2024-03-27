@@ -24,7 +24,7 @@ namespace Coddinggurrus.Infrastructure.Repositories.Tutorials.Web
                    c.Id, c.Text , c.Title, c.TopicId
             FROM dbo.Topic t with (nolock)
             INNER JOIN dbo.Content c with (nolock) ON t.Id = c.TopicId
-            WHERE t.IsActive = 0 AND t.Id = @topicId";
+            WHERE t.IsActive = 1 AND t.Id = @topicId";
 
             using var connection = new SqlConnection(CoddingGurrusDbConnectionString);
 
