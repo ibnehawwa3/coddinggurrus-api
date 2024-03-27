@@ -49,5 +49,23 @@ namespace Coddinggurrus.Infrastructure.Repositories.Tutorials.Web
                 return courses;
             }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public async Task<IEnumerable<Course>?> GetProblemFacedTopics()
+        {
+            string sql = @"
+                           SELECT TOP(12) a.Id, a.Title, a.Image
+                           FROM dbo.Course a with (nolock)
+                           WHERE a.IsActive = 0
+                           ORDER BY a.CreatedBy DESC";
+
+            using (SqlConnection connection = new SqlConnection(CoddingGurrusDbConnectionString))
+            {
+                var courses = await connection.QueryAsync<Course>(sql);
+                return courses;
+            }
+        }
     }
 }

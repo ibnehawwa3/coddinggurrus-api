@@ -49,6 +49,21 @@ namespace Coddinggurrus.Business.Services.Tutorials.Web
             }
             return Mapper.Map<IEnumerable<CourseDto>>(courses);
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public async Task<IEnumerable<BrowseCourseDto>> GetProblemFacedTopics()
+        {
+            if (!Cache.TryGetValue("ProblemFacedTopics", out IEnumerable<Course>? courses))
+            {
+                courses = await _widgetsRepository.GetProblemFacedTopics();
+                if (courses.Any())
+                {
+                    Cache.Set("ProblemFacedTopics", courses, TimeSpan.FromMinutes(60));
+                }
+            }
+            return Mapper.Map<IEnumerable<BrowseCourseDto>>(courses);
+        }
     }
 }

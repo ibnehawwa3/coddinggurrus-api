@@ -6,5 +6,6 @@ namespace Coddinggurrus.Core.Interfaces.Services.Tutorials.Web
     {
         Task<IEnumerable<BrowseCourseDto>> GetBrowseTopics();
         Task<IEnumerable<CourseDto>> GetCoursesForSlider();
+        Task<IEnumerable<BrowseCourseDto>> GetProblemFacedTopics();
     }
 }

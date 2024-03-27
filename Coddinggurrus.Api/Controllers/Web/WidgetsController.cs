@@ -47,5 +47,21 @@ namespace Coddinggurrus.Api.Controllers.Web
             }
             return Ok(basicResponse);
         }
+        [HttpGet("problem-faced-topics")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetProblemFacedTopics()
+        {
+            BasicResponse basicResponse = new BasicResponse();
+            try
+            {
+                var courses = await _widgetsService.GetProblemFacedTopics();
+                basicResponse.Data = JsonConvert.SerializeObject(courses);
+            }
+            catch (Exception e)
+            {
+                basicResponse.ErrorMessage = e.Message;
+            }
+            return Ok(basicResponse);
+        }
     }
 }
